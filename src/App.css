@@ -1,3 +1,4 @@
+/* src/styles/PricingApp.css */
 .App {
   text-align: center;
 }
@@ -21,11 +22,44 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: hsl(240, 78%, 98%);
 }
 
 .App-link {
   color: #61dafb;
+}
+
+/* Navigation styles */
+nav {
+  background-color: hsl(240, 78%, 98%);
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+nav a {
+  display: inline-block;
+  background-color: #61dafb; /* Default button background color */
+  color: #fff; /* Default button text color */
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  margin: 0 0.5rem;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background-color: #282c34; /* Hover background color */
+  border-color: #282c34;
+}
+
+nav a.active {
+  background-color: #282c34; /* Active button background color */
+}
+
+nav.active {
+  background-color: #f5f5f5; /* Change background color when login route is active */
 }
 
 @keyframes App-logo-spin {
