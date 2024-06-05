@@ -11,9 +11,9 @@ const Pricing = () => {
       <div className="app-container">
         {/* Header */}
         <header>
-          <h1 className="header-topic">Our Pricing Plan</h1>
+          <h1 className="header-topic">Nuestros Planes</h1>
           <div className="header-row">
-            <p>Annually</p>
+            <p>Anual</p>
             <label className="price-switch">
               <input
                 className="price-checkbox"
@@ -24,30 +24,31 @@ const Pricing = () => {
               />
               <div className="switch-slider"></div>
             </label>
-            <p>Monthly</p>
+            <p>Mensual</p>
           </div>
         </header>
         {/* Cards here */}
         <div className="pricing-cards">
           <PricingCard
-            title="Essential"
-            price={selectMonthly ? '20.99' : '188.9'}
-            storage="60 GB Storage"
-            users="5"
-            sendUp="5"
+            title="Gratis"
+            price={selectMonthly ? 'Gratis' : 'Gratis'}
+            storage="Configuraciones Limitadas"
+            users="1 usuario"
+            sendUp="Sin Inteligencia Artificial"
           />
           <PricingCard
-            title="Deluxe"
+            title="Empresarial"
             price={selectMonthly ? '34.99' : '349.9'}
-            storage="70 GB Storage"
-            users="10"
-            sendUp="10"
+            storage="Configuraciones Personalizadas"
+            users="10 usuarios"
+            sendUp="Acompañante de Inteligencia Artificial"
           />
           <PricingCard
             title="Premium"
-            price={selectMonthly ? '79.99' : '499.9'}
-            storage="90 GB Storage"
-            users="20"
+            price={selectMonthly ? '5.99' : '59.9'}
+            storage="Configuraciones Personalizadas"
+            users="1 usuario"
+            sendUp="Acompañante de Inteligencia Artificial"
           />
         </div>
       </div>

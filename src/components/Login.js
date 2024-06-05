@@ -28,7 +28,7 @@ function Login() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Contraseña:</label>
           <input
             type="password"
             id="password"
@@ -40,7 +40,7 @@ function Login() {
         <button type="submit">Login</button>
       </form>
       <div className="register-link">
-        <p>Don't have an account? <Link to="/register">Register</Link></p>
+        <p>No tienes cuenta? <Link to="/register">Registrarse</Link></p>
       </div>
     </div>
   );

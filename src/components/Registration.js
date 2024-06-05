@@ -15,10 +15,10 @@ function Registration() {
 
   return (
     <div className="registration-container">
-      <h2>Register</h2>
+      <h2>Registrarse</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label htmlFor="username">Username:</label>
+          <label htmlFor="username">Nombre de usuario:</label>
           <input
             type="text"
             id="username"
@@ -38,7 +38,7 @@ function Registration() {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Password:</label>
+          <label htmlFor="password">Contraseña:</label>
           <input
             type="password"
             id="password"
@@ -47,7 +47,7 @@ function Registration() {
             required
           />
         </div>
-        <button type="submit">Register</button>
+        <button type="submit">Registrarse</button>
       </form>
     </div>
   );

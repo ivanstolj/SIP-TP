@@ -15,9 +15,9 @@ function App() {
   return (
       <div>
         <nav className={isLoginRoute ? 'active' : ''}>
-          <Link to="/">Home</Link>
+          <Link to="/">Inicio</Link>
           <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link> {/* Add link to Registration page */}
+          <Link to="/register">Registrarse</Link> {/* Add link to Registration page */}
         </nav>
         <Routes>
           <Route path="/login" element={<Login />} />
