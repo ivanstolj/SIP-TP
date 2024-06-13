@@ -1,46 +1,27 @@
 import * as React from 'react';
-import './ReportsContainer.css'
 import PropTypes from 'prop-types';
 import { alpha } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import TableSortLabel from '@mui/material/TableSortLabel';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
+import {
+  Box, Table, TableBody, TableCell, TableContainer, TableHead,
+  TablePagination, TableRow, TableSortLabel, Toolbar, Typography,
+  Paper, Button, IconButton, Grid, Select, MenuItem, InputLabel, FormControl,
+  Container
+} from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { useNavigate } from 'react-router-dom';
 
-
-let rows = [
-  {
-    contenido: "sarasa@gmail.com", autor: "Matheo", fecha: "15/06/2024", aprobaciones: 4, acciones: "aprobar/desaprobar (usando íconos quizá)"
-  },
-  {
-    contenido: "https://www.phishing.com", autor: "Esteban Quito", fecha: "09/03/2024", aprobaciones: 10, acciones: "aprobar/desaprobar (usando íconos quizá)"
-  },
-  {
-    contenido: "1189765467", autor: "Roberto Gonzalez", fecha: "15/04/2024", aprobaciones: 0, acciones: "aprobar/desaprobar (usando íconos quizá)"
-  },
-]
+const rows = [
+  { id: 1, contenido: "sarasa@gmail.com", autor: "Matheo", fecha: "15/06/2024", aprobaciones: 4, tipo: "Email" },
+  { id: 2, contenido: "https://www.phishing.com", autor: "Esteban Quito", fecha: "09/03/2024", aprobaciones: 10, tipo: "URL" },
+  { id: 3, contenido: "1189765467", autor: "Roberto Gonzalez", fecha: "15/04/2024", aprobaciones: 0, tipo: "Teléfono" },
+];
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
+  if (b[orderBy] < a[orderBy]) return -1;
+  if (b[orderBy] > a[orderBy]) return 1;
   return 0;
 }
 
@@ -50,55 +31,26 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-
 function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
+    if (order !== 0) return order;
     return a[1] - b[1];
   });
   return stabilizedThis.map((el) => el[0]);
 }
 
 const headCells = [
-  {
-    id: 'contenido',
-    numeric: true,
-    disablePadding: true,
-    label: 'Contenido',
-  },
-  {
-    id: 'autor',
-    numeric: false,
-    disablePadding: false,
-    label: 'Autor',
-  },
-  {
-    id: 'fecha',
-    numeric: false,
-    disablePadding: false,
-    label: 'Fecha',
-  },
-  {
-    id: 'aprobaciones',
-    numeric: false,
-    disablePadding: false,
-    label: 'Aprobaciones',
-  },
-  {
-    id: 'acciones',
-    numeric: false,
-    disablePadding: false,
-    label: 'Acciones',
-  },
+  { id: 'contenido', numeric: false, disablePadding: false, label: 'Contenido' },
+  { id: 'autor', numeric: false, disablePadding: false, label: 'Autor' },
+  { id: 'fecha', numeric: false, disablePadding: false, label: 'Fecha' },
+  { id: 'aprobaciones', numeric: false, disablePadding: false, label: 'Aprobaciones' },
+  { id: 'acciones', numeric: false, disablePadding: false, label: 'Acciones' },
 ];
 
 function EnhancedTableHead(props) {
-  const { order, orderBy, onRequestSort } =
-    props;
+  const { order, orderBy, onRequestSort } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
@@ -106,8 +58,6 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
-        </TableCell>
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -139,33 +89,16 @@ EnhancedTableHead.propTypes = {
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
 };
-
-function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
-
-  return (
-    <Toolbar
-      sx={{
-        pl: { sm: 2 },
-        pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-        }),
-      }}
-    >
-    </Toolbar>
-  );
-}
 
 export default function EnhancedTable() {
   const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
+  const [orderBy, setOrderBy] = React.useState('contenido');
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const navigate = useNavigate()
+  const [filter, setFilter] = React.useState('');
+  const navigate = useNavigate();
+  let valor = false
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -183,81 +116,121 @@ export default function EnhancedTable() {
   };
 
   const handleCreateReportView = () => {
-    navigate('/reportes/crearReporte')
-  }
+    navigate('/reportes/crearReporte');
+  };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+    setPage(0);
+  };
+
+  const filteredRows = filter
+    ? rows.filter((row) => row.tipo === filter)
+    : rows;
+
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredRows.length) : 0;
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(filteredRows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
       ),
-    [order, orderBy, page, rowsPerPage],
+    [order, orderBy, page, rowsPerPage, filteredRows],
   );
 
   return (
     <div className='reports'>
-      <Box sx={{ width: '100%' }}>
-        <div className='create-report'>
+      <Container sx={{ width: '100%', marginTop: 5 }} maxWidth="xl">
+        <Grid container alignItems="center" justifyContent="space-between" sx={{ marginBottom: 2 }}>
           <Typography
-            sx={{ flex: '1 1 100%', fontWeight: 'bold', color: 'black'}}
             variant="h4"
-            id="tableTitle"
-            component="div"
+            sx={{ fontWeight: 'bold', color: 'black' }}
           >
             Reportes
           </Typography>
 
+          {
+            valor ?
+              <Button
+                variant='contained'
+                size='large'
+                sx={{ backgroundColor: '#595959' }}
+                onClick={handleCreateReportView}
+                endIcon={<AddIcon />}
+              >
+                Crear reporte
+              </Button>
+              :
+              <Button
+                disabled
+                variant='contained'
+                size='large'
+                sx={{ backgroundColor: '#595959' }}
+                onClick={handleCreateReportView}
+                endIcon={<AddIcon />}
+              >
+                Crear reporte
+              </Button>
+          }
 
-          <Button sx={{ flex: 'none', backgroundColor: '#595959' }} onClick={handleCreateReportView} variant='contained' size='large' endIcon={<AddIcon />}>Crear reporte</Button>
-        </div>
+        </Grid>
+        <Grid container spacing={2} alignItems="center" sx={{ marginBottom: 2 }}>
+          <Grid item>
+            <FormControl variant="outlined" sx={{ minWidth: 120 }}>
+              <InputLabel id="filter-label">Tipo</InputLabel>
+              <Select
+                labelId="filter-label"
+                value={filter}
+                onChange={handleFilterChange}
+                label="Tipo"
+              >
+                <MenuItem value="">
+                  <em>Todos</em>
+                </MenuItem>
+                <MenuItem value="Email">Email</MenuItem>
+                <MenuItem value="URL">URL</MenuItem>
+                <MenuItem value="Teléfono">Teléfono</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
         <Paper sx={{ width: '100%', mb: 2 }}>
-          <EnhancedTableToolbar />
           <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-            >
+            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
               <EnhancedTableHead
                 order={order}
                 orderBy={orderBy}
                 onRequestSort={handleRequestSort}
-                rowCount={rows.length}
+                rowCount={filteredRows.length}
               />
               <TableBody>
                 {visibleRows.map((row, index) => {
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
-                    <TableRow
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.id}
-                    >
-                      <TableCell padding="checkbox">
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
+                    <TableRow hover tabIndex={-1} key={row.id}>
+                      <TableCell component="th" id={labelId} scope="row" padding="normal">
                         {row.contenido}
                       </TableCell>
-                      <TableCell sx={{ paddingRight: '40px' }} align="center">{row.autor}</TableCell>
-                      <TableCell sx={{ paddingRight: '40px' }} align="center">{row.fecha}</TableCell>
-                      <TableCell sx={{ paddingRight: '40px' }} align="center">{row.aprobaciones}</TableCell>
-                      <TableCell sx={{ paddingRight: '40px' }} align="center"><ThumbUpIcon onClick={() => { console.log('toque') }} sx={{ marginRight: '10px', cursor: 'pointer' }} /><ThumbDownIcon sx={{ cursor: 'pointer' }} /></TableCell>
+                      <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.autor}</TableCell>
+                      <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.fecha}</TableCell>
+                      <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.aprobaciones}</TableCell>
+                      <TableCell align="center" sx={{ paddingRight: "40px" }}>
+                        <ThumbUpIcon
+                          onClick={() => { console.log('Aprobado') }}
+                          sx={{ marginRight: '10px', cursor: 'pointer' }}
+                        />
+                        <ThumbDownIcon
+                          onClick={() => { console.log('Desaprobado') }}
+                          sx={{ cursor: 'pointer' }}
+                        />
+                      </TableCell>
                     </TableRow>
                   );
                 })}
                 {emptyRows > 0 && (
-                  <TableRow
-                  >
+                  <TableRow style={{ height: (53) * emptyRows }}>
                     <TableCell colSpan={6} />
                   </TableRow>
                 )}
@@ -267,14 +240,14 @@ export default function EnhancedTable() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={rows.length}
+            count={filteredRows.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-      </Box>
+      </Container>
     </div>
   );
 }
