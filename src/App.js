@@ -1,31 +1,29 @@
 // src/App.js
 import React from 'react';
-import { Route, Routes, Link, useLocation } from 'react-router-dom';
+import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import Pricing from './components/Pricing';
 import Login from './components/Login';
+import NavBar from './components/NavBar/NavBar';
 import './App.css';
 import Registration from './components/Registration'; // Import Registration component
+import ReportListContainer from './containers/ReportsContainer';
+import CreateReport from './components/CreateReport/CreateReport';
 
 
 
 function App() {
-  const location = useLocation();
-  const isLoginRoute = location.pathname === '/login';
 
   return (
-      <div>
-        <nav className={isLoginRoute ? 'active' : ''}>
-          <Link to="/">Inicio</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/register">Registrarse</Link> {/* Add link to Registration page */}
-        </nav>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Registration />} /> {/* Route for Registration page */}
-
-          <Route path="/" element={<Pricing />} />
-        </Routes>
-      </div>
+    <Router>
+      <NavBar />
+      <Routes>
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Registration />} />
+        <Route path="/reportes" element={<ReportListContainer />} />
+        <Route path="/reportes/crearReporte" element={<CreateReport />} />
+      </Routes>
+    </Router>
   );
 }
 
