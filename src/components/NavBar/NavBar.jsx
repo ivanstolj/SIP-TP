@@ -12,19 +12,29 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './NavBar.css';
 
-const pages = ['Menu', 'Reportes', 'Pricing'];
-const settings = ['Perfil', 'Mis reportes', 'Logout'];
+const pages = [
+  { name: 'Menu', path: '/' },
+  { name: 'Reportes', path: '/reportes' },
+  { name: 'Pricing', path: '/pricing' },
+];
+const settings = [
+  { name: 'Perfil', path: '/perfil' },
+  { name: 'Mis reportes', path: '/mis-reportes' },
+  { name: 'Logout', path: '/logout' },
+];
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -33,10 +43,18 @@ function NavBar() {
     setAnchorElNav(null);
   };
 
-
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleMenuItemClick = (path) => {
+    navigate(path);
+    handleCloseNavMenu();
+  };
+
+  const handleSettingClick = (path) => {
+    navigate(path);
+    handleCloseUserMenu();
   };
 
   return (
@@ -48,7 +66,7 @@ function NavBar() {
             variant="h6"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -92,11 +110,9 @@ function NavBar() {
               }}
             >
               {pages.map((page) => (
-                <Link className="link" key={page} to={`/${page.toLowerCase()}`}>
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                </Link>
+                <MenuItem key={page.name} onClick={() => handleMenuItemClick(page.path)}>
+                  <Typography textAlign="center">{page.name}</Typography>
+                </MenuItem>
               ))}
             </Menu>
           </Box>
@@ -121,15 +137,13 @@ function NavBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
-              <Link className="link"  id={page}  to={`/${page.toLowerCase()}`}>
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
-              </Link>
+              <Button
+                key={page.name}
+                onClick={() => handleMenuItemClick(page.path)}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+              >
+                {page.name}
+              </Button>
             ))}
           </Box>
 
@@ -156,8 +170,8 @@ function NavBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem key={setting.name} onClick={() => handleSettingClick(setting.path)}>
+                  <Typography textAlign="center">{setting.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -167,4 +181,5 @@ function NavBar() {
     </AppBar>
   );
 }
+
 export default NavBar;

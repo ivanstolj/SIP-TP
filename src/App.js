@@ -8,6 +8,7 @@ import './App.css';
 import Registration from './components/Registration'; // Import Registration component
 import ReportListContainer from './containers/ReportsContainer';
 import CreateReport from './components/CreateReport/CreateReport';
+import HomePage from './components/Bienvenida/Home';
 
 
 
@@ -17,6 +18,7 @@ function App() {
     <Router>
       <NavBar />
       <Routes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Registration />} />

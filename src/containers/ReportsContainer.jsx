@@ -1,11 +1,11 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { alpha } from '@mui/material/styles';
 import {
   Box, Table, TableBody, TableCell, TableContainer, TableHead,
   TablePagination, TableRow, TableSortLabel, Toolbar, Typography,
   Paper, Button, IconButton, Grid, Select, MenuItem, InputLabel, FormControl,
-  Container
+  Container,
+  Tooltip
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import AddIcon from '@mui/icons-material/Add';
@@ -98,7 +98,7 @@ export default function EnhancedTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [filter, setFilter] = React.useState('');
   const navigate = useNavigate();
-  let valor = false
+  let valor = true
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -155,7 +155,6 @@ export default function EnhancedTable() {
               <Button
                 variant='contained'
                 size='large'
-                sx={{ backgroundColor: '#595959' }}
                 onClick={handleCreateReportView}
                 endIcon={<AddIcon />}
               >
@@ -166,7 +165,6 @@ export default function EnhancedTable() {
                 disabled
                 variant='contained'
                 size='large'
-                sx={{ backgroundColor: '#595959' }}
                 onClick={handleCreateReportView}
                 endIcon={<AddIcon />}
               >
@@ -217,14 +215,20 @@ export default function EnhancedTable() {
                       <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.fecha}</TableCell>
                       <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.aprobaciones}</TableCell>
                       <TableCell align="center" sx={{ paddingRight: "40px" }}>
+                        <Tooltip title='Aprobar'>
                         <ThumbUpIcon
                           onClick={() => { console.log('Aprobado') }}
                           sx={{ marginRight: '10px', cursor: 'pointer' }}
+                          color='success'
                         />
-                        <ThumbDownIcon
-                          onClick={() => { console.log('Desaprobado') }}
-                          sx={{ cursor: 'pointer' }}
-                        />
+                        </Tooltip>
+                        <Tooltip title='Desaprobar'>
+                          <ThumbDownIcon
+                            color='error'
+                            onClick={() => { console.log('Desaprobado') }}
+                            sx={{ cursor: 'pointer' }}
+                          />
+                        </Tooltip>
                       </TableCell>
                     </TableRow>
                   );
