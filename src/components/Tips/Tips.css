@@ -1,0 +1,48 @@
+.tips-container {
+  text-align: center;
+  padding-top: 50px;
+  background-color: #f9f9f9;
+  padding-bottom: 50px;
+}
+
+.header-box {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.tip-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tip-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.additional-tips-box, .useful-tools-box, .password-checker-box, .https-checker-box {
+  text-align: left;
+  margin-top: 30px;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.password-checker-box {
+  text-align: center;
+}
+
+.https-checker-box {
+  text-align: center;
+}
