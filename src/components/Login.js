@@ -1,22 +1,20 @@
 // src/components/Login.js
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import ContextoAuth from '../Context/AuthContext';
 import Loader from './Loader/Loader';
-import '../styles/Login.css';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import '../styles/Login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const { loginUser, user } = useContext(ContextoAuth);
-  const [loading, setLoading] = useState(false)
+  const { loginUser } = useContext(ContextoAuth);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
 
   const validateEmail = (email) => {
     const re = /\S+@\S+\.\S+/;
@@ -24,38 +22,37 @@ function Login() {
   };
 
   const handleSubmit = async (e) => {
-    setLoading(true)
+    setLoading(true);
     e.preventDefault();
 
     let bodyUser = {
       email: e.target.email.value,
-      password: e.target.password.value
-    }
+      password: e.target.password.value,
+    };
+
     try {
       const response = await axios.post('http://localhost:4000/users/login', bodyUser);
-      localStorage.setItem("user", JSON.stringify(response.data.loginUser.user))
-      localStorage.setItem("token", JSON.stringify(response.data.loginUser.token))
-      loginUser(response.data.loginUser.user)
-      navigate("/reportes")
+      localStorage.setItem('user', JSON.stringify(response.data.loginUser.user));
+      localStorage.setItem('token', JSON.stringify(response.data.loginUser.token));
+      loginUser(response.data.loginUser.user);
+      navigate('/reportes');
     } catch (e) {
-      const statusCode = e.response.data.status
+      const statusCode = e.response.data.status;
       if (statusCode === 400) {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
           text: 'Email o contraseña incorrecta',
-        })
+        });
       }
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-
   };
 
   if (loading) {
-    <Loader />
-  }
-  else {
+    return <Loader />;
+  } else {
     return (
       <div className="login-container">
         <div className="login-box">
@@ -90,7 +87,8 @@ function Login() {
             {error && <p className="error-message">{error}</p>}
             <button type="submit">Login</button>
           </form>
-          <div className="register-link">
+          <div className="login-links">
+            <p><Link to="/reestablecerContraseña">¿Olvidaste tu contraseña?</Link></p>
             <p>No tienes cuenta? <Link to="/register">Registrarse</Link></p>
           </div>
         </div>

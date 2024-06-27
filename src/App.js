@@ -17,6 +17,7 @@ import WhitelistManagement from './components/Whitelist/Whitelist';
 import Quiz from './components/Test/Test';
 import ProtectedRoute from './components/ProtectedRoute.jsx/ProtectedRoute';
 import AccessDenied from './components/Denied/AccesDenied';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
+            <Route path="/reestablecerContraseña" element={<ForgotPassword />} />
             <Route path="/error" element={<AccessDenied />} />
 
             <Route element={<ProtectedRoute redirectTo="/login" />}>

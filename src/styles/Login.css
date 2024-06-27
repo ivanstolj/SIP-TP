@@ -23,7 +23,6 @@ body {
   transition: transform 0.3s ease;
 }
 
-
 .login-box h2 {
   margin-bottom: 30px;
   text-align: center;
@@ -48,10 +47,8 @@ body {
 .input-wrapper {
   display: flex;
   align-items: center;
-  /* border: 1px solid #ced4da; */
   border-radius: 5px;
   padding: 0 10px;
-  /* background-color: #f8f9fa; */
 }
 
 .input-wrapper input {
@@ -84,18 +81,27 @@ button:hover {
   background-color: #0056b3;
 }
 
-.register-link {
+button:disabled {
+  background-color: #a0c5ff;
+  cursor: not-allowed;
+}
+
+.login-links {
   margin-top: 20px;
   text-align: center;
 }
 
-.register-link a {
+.login-links p {
+  margin: 10px 0;
+}
+
+.login-links a {
   color: #007bff;
   text-decoration: none;
   font-weight: 500;
 }
 
-.register-link a:hover {
+.login-links a:hover {
   text-decoration: underline;
 }
 
