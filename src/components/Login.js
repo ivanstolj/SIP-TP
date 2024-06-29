@@ -22,8 +22,16 @@ function Login() {
   };
 
   const handleSubmit = async (e) => {
-    setLoading(true);
     e.preventDefault();
+
+    // Validar email antes de continuar
+    if (!validateEmail(email)) {
+      setError('Email no válido');
+      return;
+    }
+
+    setLoading(true);
+    setError('');  // Limpiar errores anteriores
 
     let bodyUser = {
       email: e.target.email.value,
@@ -32,18 +40,24 @@ function Login() {
 
     try {
       const response = await axios.post('http://localhost:4000/users/login', bodyUser);
-      localStorage.setItem('user', JSON.stringify(response.data.loginUser.user));
-      localStorage.setItem('token', JSON.stringify(response.data.loginUser.token));
-      loginUser(response.data.loginUser.user);
-      navigate('/reportes');
-    } catch (e) {
-      const statusCode = e.response.data.status;
-      if (statusCode === 400) {
+      if (response.data.loginUser.user.validated) {
+        localStorage.setItem('user', JSON.stringify(response.data.loginUser.user));
+        localStorage.setItem('token', JSON.stringify(response.data.loginUser.token));
+        loginUser(response.data.loginUser.user);
+        navigate('/reportes');
+      } else {
         Swal.fire({
           icon: 'error',
           title: 'Oops...',
-          text: 'Email o contraseña incorrecta',
+          text: 'Tu cuenta no ha sido validada',
         });
+      }
+    } catch (e) {
+      const statusCode = e.response.data.status;
+      if (statusCode === 400) {
+        setError('Email o contraseña incorrecta');
+      } else {
+        setError('Ha ocurrido un error. Por favor, inténtelo de nuevo.');
       }
     } finally {
       setLoading(false);

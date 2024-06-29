@@ -24,11 +24,13 @@ function Registration() {
       })
       navigate('/login');
     } catch (error) {
+      console.log(error);
       const codeDetail = error.response.data.status
       if (codeDetail === 409) {
+        const detail = error.response.data.message
         Swal.fire({
           title: 'ERROR',
-          text: 'El mail ya ha sido utilizado. Por favor ingrese otro.',
+          text: `${detail}. Por favor ingrese otro.`,
           icon: 'error',
         })
       }

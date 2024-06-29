@@ -1,4 +1,15 @@
+/* ReportsContainer.css */
+.reports {
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
 .linkLogin {
-  color: #3182ce;
+  color: #007bff;
   text-decoration: none;
+  font-weight: bold;
+}
+
+.linkLogin:hover {
+  text-decoration: underline;
 }

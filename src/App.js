@@ -13,12 +13,13 @@ import { Auth } from './Context/AuthContext';
 import MyReports from './components/MyReports/MyReports';
 import { AllMyReports } from './Context/PersonalReportsContext';
 import Tips from './components/Tips/Tips';
-import WhitelistManagement from './components/Whitelist/Whitelist';
 import Quiz from './components/Test/Test';
 import ProtectedRoute from './components/ProtectedRoute.jsx/ProtectedRoute';
 import AccessDenied from './components/Denied/AccesDenied';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
-
+import ActivateAccount from './components/ActivateAccount/ActivateAccount';
+import ResetPassword from './components/ResetPassword/ResetPassword';
+import Payment from './components/Payment/Payment';
 function App() {
   return (
     <Auth>
@@ -31,18 +32,20 @@ function App() {
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Registration />} />
+            <Route path="/activate/:token" element={<ActivateAccount />} />
             <Route path="/reestablecerContraseña" element={<ForgotPassword />} />
+            <Route path="/reestablecerContraseña/:token" element={<ResetPassword />} />
+            <Route path="/quiz" element={<Quiz />} />
             <Route path="/error" element={<AccessDenied />} />
 
             <Route element={<ProtectedRoute redirectTo="/login" />}>
+              <Route path="/payment" element={<Payment />} />
               <Route path="/perfil" element={<UserProfile />} />
               <Route path="/misreportes" element={<MyReports />} />
             </Route>
 
             <Route element={<ProtectedRoute redirectTo="/error" />}>
               <Route path="/reportes/crearReporte" element={<CreateReport />} />
-              <Route path="/quiz" element={<Quiz />} />
-              <Route path="/whitelist" element={<WhitelistManagement />} />
             </Route>
 
             <Route path="/reportes" element={<ReportListContainer />} />

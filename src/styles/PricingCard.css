@@ -1,3 +1,4 @@
+/* src/styles/PricingCard.css */
 .PricingCard {
   padding: 2em;
   border-radius: 1em;
@@ -35,7 +36,8 @@
   margin-bottom: 2em;
 }
 
-.PricingCard .card-btn {
+.PricingCard .card-btn,
+.PricingCard .current-plan-btn {
   cursor: pointer;
   padding-block: 1em;
   width: 100%;
@@ -47,6 +49,11 @@
   color: var(--neutral-white);
 }
 
+.PricingCard .current-plan-btn {
+  background-color: gray;
+  cursor: not-allowed;
+}
+
 .PricingCard .card-btn:is(:focus-visible, :hover) {
   color: hsl(237, 63%, 64%);
   background: linear-gradient(white, white) padding-box,
@@ -55,13 +62,15 @@
   border: 2px solid transparent;
 }
 
-.PricingCard:nth-child(2) .card-btn {
+.PricingCard:nth-child(2) .card-btn,
+.PricingCard:nth-child(2) .current-plan-btn {
   background: transparent;
   background-color: var(--neutral-white);
   color: hsl(237, 63%, 64%);
 }
 
-.PricingCard:nth-child(2) .card-btn:is(:focus-visible, :hover) {
+.PricingCard:nth-child(2) .card-btn:is(:focus-visible, :hover),
+.PricingCard:nth-child(2) .current-plan-btn:is(:focus-visible, :hover) {
   color: var(--neutral-white);
   background: linear-gradient(to right, var(--primary-linear-gradient))
       padding-box,

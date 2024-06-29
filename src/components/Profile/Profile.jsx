@@ -1,8 +1,8 @@
 import ContextoAuth from '../../Context/AuthContext';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Grid, Typography, Avatar, Button, TextField, Box } from '@mui/material';
-import { deepPurple } from '@mui/material/colors';
+import { orange } from '@mui/material/colors';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -13,6 +13,13 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [editableUser, setEditableUser] = useState({ ...user });
+  const [avatarUrl, setAvatarUrl] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      setAvatarUrl(`https://robohash.org/${user.username}.png`);
+    }
+  }, [user]);
 
   const handlelogOffUser = () => {
     logOffUser();
@@ -46,11 +53,10 @@ const UserProfile = () => {
           <Grid item xs={12} sm={4} className="avatar-grid">
             <Avatar
               alt={user.name}
+              src={avatarUrl}
               className="user-avatar"
-              sx={{ bgcolor: deepPurple[500], width: 120, height: 120 }}
-            >
-              {user.name.charAt(0)}
-            </Avatar>
+              sx={{ bgcolor: orange[500], width: 120, height: 120 }}
+            />
           </Grid>
           <Grid item xs={12} sm={8}>
             <Typography variant="h4" className="user-name">

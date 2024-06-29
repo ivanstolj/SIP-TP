@@ -1,4 +1,10 @@
-.link{
+.link {
     text-decoration: none;
     color: black;
 }
+
+.logo-icon {
+    font-size: 2rem; /* Ajusta este valor según el tamaño deseado */
+    margin-right: 10px; /* Espacio entre el logo y el texto */
+  }
+  

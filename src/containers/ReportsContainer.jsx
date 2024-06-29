@@ -13,7 +13,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { Link, useNavigate } from 'react-router-dom';
 import ContextoAuth from '../Context/AuthContext';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Toastify from 'toastify-js';
@@ -48,6 +48,7 @@ const headCells = [
   { id: 'user', numeric: false, disablePadding: false, label: 'Usuario Autor' },
   { id: 'date', numeric: false, disablePadding: false, label: 'Fecha' },
   { id: 'likes', numeric: false, disablePadding: false, label: 'Aprobaciones' },
+  { id: 'dislikes', numeric: false, disablePadding: false, label: 'Desaprobaciones' },
   { id: 'acciones', numeric: false, disablePadding: false, label: 'Acciones' },
 ];
 
@@ -113,6 +114,7 @@ export default function EnhancedTable() {
 
   const navigate = useNavigate();
   const { isLogged, user } = React.useContext(ContextoAuth);
+
 
   useEffect(() => {
     async function fetchData() {
@@ -211,7 +213,7 @@ export default function EnhancedTable() {
     [order, orderBy, page, rowsPerPage, filteredRows],
   );
 
-  const handleLike = (id) => {
+  const handleLike = async (id, content) => {
     Swal.fire({
       title: "¿Confirmar Acción?",
       text: "Esto aprobará el reporte.",
@@ -225,7 +227,7 @@ export default function EnhancedTable() {
       if (result.isConfirmed) {
         const token = localStorage.getItem('token').replace(/^"|"$/g, '');
         try {
-          const response = await axios.put(`http://localhost:4000/reports/like`, { reportId: id, userId: user._id }, {
+          const response = await axios.put(`http://localhost:4000/reports/like`, { reportId: id, userId: user._id, content: content, email: user.email }, {
             headers: {
               'x-access-token': token
             }
@@ -235,7 +237,48 @@ export default function EnhancedTable() {
             title: "¡Listo!",
             text: "El reporte ha sido aprobado.",
             icon: "success"
+          }).then(() => window.location.reload());
+        }
+        catch (e) {
+          console.log(e);
+          Toastify({
+            text: "Ha habido un error. Por favor, inténtelo de nuevo.",
+            style: {
+              background: "red",
+            },
+            duration: "3000",
+            close: true,
+          }).showToast();
+        }
+      }
+    });
+  };
+
+  const handleDislike = async (id, content) => {
+    Swal.fire({
+      title: "¿Confirmar Acción?",
+      text: "Esto desaprobará el reporte.",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem('token').replace(/^"|"$/g, '');
+        try {
+          const response = await axios.put(`http://localhost:4000/reports/dislike`, { reportId: id, userId: user._id, content: content, email: user.email }, {
+            headers: {
+              'x-access-token': token
+            }
           });
+          console.log(response);
+          Swal.fire({
+            title: "¡Listo!",
+            text: "El reporte ha sido desaprobado.",
+            icon: "success"
+          }).then(() => window.location.reload());
         }
         catch (e) {
           console.log(e);
@@ -405,6 +448,8 @@ export default function EnhancedTable() {
               <TableBody>
                 {visibleRows.map((row, index) => {
                   const labelId = `enhanced-table-checkbox-${index}`;
+                  const userLiked = user && row.likesBy && row.likesBy.includes(user._id) ? true : false;
+                  const userDisliked = user && row.dislikesBy && row.dislikesBy.includes(user._id) ? true : false;
 
                   return (
                     <TableRow hover tabIndex={-1} key={row.id}>
@@ -412,26 +457,32 @@ export default function EnhancedTable() {
                         {row.content}
                       </TableCell>
                       <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.pretends}</TableCell>
-                      <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.user.username}</TableCell>
+                      <TableCell align="center" sx={{ paddingRight: "40px" }}> {row.user.username}</TableCell>
                       <TableCell align="center" sx={{ paddingRight: "40px" }}>{formatDateTime(row.date)}</TableCell>
                       <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.likes}</TableCell>
+                      <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.dislikes}</TableCell>
                       {
-                        user ? <TableCell align="center" sx={{ paddingRight: "40px" }}>
-                          <Tooltip title='Aprobar'>
-                            <ThumbUpIcon
-                              onClick={() => { handleLike(row._id) }}
-                              sx={{ marginRight: '10px', cursor: 'pointer' }}
-                              color='success'
-                            />
-                          </Tooltip>
-                          <Tooltip title='Desaprobar'>
-                            <ThumbDownIcon
-                              color='error'
-                              onClick={() => { console.log('Desaprobado') }}
-                              sx={{ cursor: 'pointer' }}
-                            />
-                          </Tooltip>
-                        </TableCell> :
+                        user ?
+                          row.user._id === user._id ?
+                            <TableCell align="center" sx={{ paddingRight: "40px" }}>
+                              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>Reporte propio</Typography>
+                            </TableCell> :
+                            <TableCell align="center" sx={{ paddingRight: "40px" }}>
+                              <Tooltip title={userLiked ? 'Ya aprobado' : 'Aprobar'}>
+                                <ThumbUpIcon
+                                  onClick={!userLiked ? () => { handleLike(row._id, row.content) } : null}
+                                  sx={{ marginRight: '10px', cursor: userLiked ? 'not-allowed' : 'pointer' }}
+                                  color={userLiked ? 'disabled' : 'success'}
+                                />
+                              </Tooltip>
+                              <Tooltip title={userDisliked ? 'Ya desaprobado' : 'Desaprobar'}>
+                                <ThumbDownIcon
+                                  color={userDisliked ? 'disabled' : 'error'}
+                                  onClick={!userDisliked ? () => { handleDislike(row._id, row.content) } : null}
+                                  sx={{ cursor: userDisliked ? 'not-allowed' : 'pointer' }}
+                                />
+                              </Tooltip>
+                            </TableCell> :
                           <TableCell align="center" sx={{ paddingRight: "40px" }}>
                             <Typography variant="body2" sx={{ fontWeight: 'bold' }}><Link to="/login" className="linkLogin">Inicie sesión</Link> para poder aprobar<br></br> o desaprobar reportes</Typography>
                           </TableCell>

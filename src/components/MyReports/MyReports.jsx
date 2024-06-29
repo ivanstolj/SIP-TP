@@ -11,11 +11,14 @@ import AddIcon from '@mui/icons-material/Add';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useNavigate } from 'react-router-dom';
 import ContextoAuth from '../../Context/AuthContext';
-import { useEffect } from 'react';
-import axios from 'axios';
 import "toastify-js/src/toastify.css";
 import { CSVLink } from "react-csv";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import ContextoReports from '../../Context/PersonalReportsContext';
+import Swal from 'sweetalert2';
+import axios from 'axios';
+import Toastify from 'toastify-js';
+import "toastify-js/src/toastify.css";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) return -1;
@@ -44,6 +47,7 @@ const headCells = [
     { id: 'pretends', numeric: false, disablePadding: false, label: 'Simula ser' },
     { id: 'date', numeric: false, disablePadding: false, label: 'Fecha' },
     { id: 'likes', numeric: false, disablePadding: false, label: 'Aprobaciones' },
+    { id: 'actions', numeric: false, disablePadding: false, label: 'Eliminar' },
 ];
 
 function EnhancedTableHead(props) {
@@ -98,21 +102,6 @@ export default function EnhancedTable() {
     const navigate = useNavigate();
     const { isLogged, user } = React.useContext(ContextoAuth);
     const { MyReports } = React.useContext(ContextoReports)
-    console.log(MyReports)
-
-    // useEffect(() => {
-    //     async function fetchData() {
-    //         const token = localStorage.getItem('token').replace(/^"|"$/g, '');
-    //         const response = await axios.post('http://localhost:4000/reports/reportsByUser', { user: user._id }, {
-    //             headers: {
-    //                 'x-access-token': token
-    //             }
-    //         });
-    //         console.log(response.data.data.docs);
-    //         await setReports(response.data.data.docs);
-    //     }
-    //     fetchData();
-    // }, []);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -137,6 +126,53 @@ export default function EnhancedTable() {
         setFilter(event.target.value);
         setPage(0);
     };
+
+    const handleDelete = async (id, content) => {
+        Swal.fire({
+            title: "¿Confirmar Acción?",
+            text: "Esto eliminará el reporte.",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const token = localStorage.getItem('token').replace(/^"|"$/g, '');
+                    const response = await axios.delete('http://localhost:4000/reports/', {
+                        headers: {
+                            'x-access-token': token
+                        },
+                        data: {
+                            reportId: id,
+                            email: user.email,
+                            content: content,
+                            username: user.username
+                        }
+                    });
+                    console.log(response);
+                    Swal.fire({
+                        title: "¡Listo!",
+                        text: "El reporte ha sido eliminado.",
+                        icon: "success"
+                    }).then(() => window.location.reload());
+                } catch (e) {
+                    console.log(e);
+                    Toastify({
+                        text: "Ha habido un error. Por favor, inténtelo de nuevo.",
+                        style: {
+                            background: "red",
+                        },
+                        duration: "3000",
+                        close: true,
+                    }).showToast();
+                }
+
+            }
+        });
+    }
 
     const toggleDrawer = (open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -303,6 +339,7 @@ export default function EnhancedTable() {
                                             <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.pretends}</TableCell>
                                             <TableCell align="center" sx={{ paddingRight: "40px" }}>{formatDateTime(row.date)}</TableCell>
                                             <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.likes}</TableCell>
+                                            <TableCell align="center" sx={{ paddingRight: "40px" }}><Button onClick={() => handleDelete(row._id, row.content)}><DeleteForeverIcon sx={{ color: 'red' }} /></Button></TableCell>
                                         </TableRow>
                                     );
                                 })}

@@ -6,12 +6,15 @@ import axios from 'axios';
 import ContextoAuth from '../../Context/AuthContext';
 import Loader from '../Loader/Loader';
 import Swal from 'sweetalert2';
+import ContextoReports from '../../Context/PersonalReportsContext';
 
 const CreateReport = () => {
   const { user } = useContext(ContextoAuth);
   const [reports, setReports] = useState([{ user: user._id, type: '', content: '', pretends: '', description: '' }]);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const { updateReports } = React.useContext(ContextoReports)
+
 
   const handleChange = (index, event) => {
     const { name, value } = event.target;
@@ -88,6 +91,7 @@ const CreateReport = () => {
             }
           });
           successReports.push(report);
+          updateReports(response.data.report);
         } catch (e) {
           console.log(e);
           failedReports.push(report);

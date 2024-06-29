@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, MenuItem, Container, Avatar, Button, Tooltip } from '@mui/material';
+import { orange } from '@mui/material/colors';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AdbIcon from '@mui/icons-material/Adb';
 import ContextoAuth from '../../Context/AuthContext';
 import './NavBar.css';
@@ -13,14 +14,15 @@ const pages = [
   { name: 'Consejos', path: '/consejos' },
   { name: 'Test de conocimiento', path: '/quiz' },
 ];
+
 const settingsLogin = [
   { name: 'Perfil', path: '/perfil' },
-  { name: 'Whitelist', path: '/whitelist' },
   { name: 'Mis reportes', path: '/misReportes' },
 ];
 
 const settingsNotLogin = [
   { name: 'Iniciar Sesion', path: '/login' },
+  { name: 'Registrarse', path: '/register' },
 ];
 
 function NavBar() {
@@ -28,6 +30,13 @@ function NavBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const { user, isLogged } = React.useContext(ContextoAuth);
   const navigate = useNavigate();
+  const [avatarUrl, setAvatarUrl] = React.useState('');
+
+  React.useEffect(() => {
+    if (user) {
+      setAvatarUrl(`https://robohash.org/${user.username}.png`);
+    }
+  }, [user]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -60,7 +69,7 @@ function NavBar() {
       <AppBar position="static" sx={{ backgroundColor: '#595959' }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            <AdbIcon className="logo-icon" sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             <Typography
               variant="h6"
               noWrap
@@ -115,7 +124,7 @@ function NavBar() {
                 ))}
               </Menu>
             </Box>
-            <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+            <AdbIcon className="logo-icon" sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
             <Typography
               variant="h5"
               noWrap
@@ -149,7 +158,7 @@ function NavBar() {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt={user?.name} src={avatarUrl} sx={{ bgcolor: orange[500] }} />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -168,8 +177,6 @@ function NavBar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-
-
                 {settingsLogin.map((setting) => (
                   <MenuItem key={setting.name} onClick={() => handleSettingClick(setting.path)}>
                     <Typography textAlign="center">{setting.name}</Typography>
@@ -181,13 +188,12 @@ function NavBar() {
         </Container>
       </AppBar>
     );
-  }
-  else {
+  } else {
     return (
       <AppBar position="static" sx={{ backgroundColor: '#595959' }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            <AdbIcon className="logo-icon" sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             <Typography
               variant="h6"
               noWrap
@@ -205,7 +211,7 @@ function NavBar() {
             >
               CyberGuard
             </Typography>
-  
+
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 size="large"
@@ -242,7 +248,7 @@ function NavBar() {
                 ))}
               </Menu>
             </Box>
-            <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+            <AdbIcon className="logo-icon" sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
             <Typography
               variant="h5"
               noWrap
@@ -272,7 +278,7 @@ function NavBar() {
                 </Button>
               ))}
             </Box>
-  
+
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -295,8 +301,6 @@ function NavBar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-  
-                
                 {settingsNotLogin.map((setting) => (
                   <MenuItem key={setting.name} onClick={() => handleSettingClick(setting.path)}>
                     <Typography textAlign="center">{setting.name}</Typography>
@@ -309,8 +313,6 @@ function NavBar() {
       </AppBar>
     );
   }
-
-
 }
 
 export default NavBar;

@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
-import { Box, Typography, Container, Grid, Card, CardContent, TextField, LinearProgress, Button } from '@mui/material';
+import { Box, Typography, Container, Grid, Card, CardContent, TextField, LinearProgress } from '@mui/material';
 import './Tips.css';
 
 function Tips() {
   const [password, setPassword] = useState('');
   const [passwordStrength, setPasswordStrength] = useState(0);
-  const [url, setUrl] = useState('');
-  const [httpsStatus, setHttpsStatus] = useState('');
 
   const handlePasswordChange = (event) => {
     const newPassword = event.target.value;
@@ -24,14 +22,6 @@ function Tips() {
     return (strength / 5) * 100;
   };
 
-  const handleUrlChange = (event) => {
-    setUrl(event.target.value);
-  };
-
-  const checkHttps = () => {
-    const urlPattern = /^https:\/\/[^ "]+$/;
-    setHttpsStatus(urlPattern.test(url) ? 'Este sitio utiliza HTTPS' : 'Este sitio no utiliza HTTPS');
-  };
 
   return (
     <Container maxWidth="lg" className="tips-container">
@@ -215,27 +205,6 @@ function Tips() {
             {passwordStrength < 40 && 'Contraseña débil'}
             {passwordStrength >= 40 && passwordStrength < 70 && 'Contraseña moderada'}
             {passwordStrength >= 70 && 'Contraseña fuerte'}
-          </Typography>
-        </Box>
-      </Box>
-
-      <Box className="https-checker-box" sx={{ mt: 5, py: 5, textAlign: 'center' }}>
-        <Typography variant="h4" component="h2" gutterBottom>
-          Verifica si un Sitio Web usa HTTPS
-        </Typography>
-        <Box sx={{ width: '100%', maxWidth: 400, mx: 'auto' }}>
-          <TextField
-            label="Introduce la URL del sitio web"
-            variant="outlined"
-            value={url}
-            onChange={handleUrlChange}
-            sx={{ width: '100%', mb: 2 }}
-          />
-          <Button variant="contained" color="primary" onClick={checkHttps} sx={{ width: '100%', mb: 2 }}>
-            Verificar HTTPS
-          </Button>
-          <Typography variant="body1" component="p">
-            {httpsStatus}
           </Typography>
         </Box>
       </Box>
