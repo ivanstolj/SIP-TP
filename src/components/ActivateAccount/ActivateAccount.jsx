@@ -13,7 +13,7 @@ const ActivateAccount = () => {
 
     const activateAccount = async () => {
       try {
-        const response = await axios.get(`http://localhost:4000/users/activate/${token}`);
+        const response = await axios.get(`https://backendseminario.onrender.com/users/activate/${token}`);
         if (isMounted) {
           setMessage('!Su cuenta ha sido activada¡');
           Swal.fire({

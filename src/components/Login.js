@@ -39,7 +39,7 @@ function Login() {
     };
 
     try {
-      const response = await axios.post('http://localhost:4000/users/login', bodyUser);
+      const response = await axios.post('https://backendseminario.onrender.com/users/login', bodyUser);
       if (response.data.loginUser.user.validated) {
         localStorage.setItem('user', JSON.stringify(response.data.loginUser.user));
         localStorage.setItem('token', JSON.stringify(response.data.loginUser.token));

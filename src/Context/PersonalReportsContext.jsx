@@ -11,7 +11,7 @@ export const AllMyReports = ({ children }) => {
     useEffect(() => {
         async function fetchData() {
             const token = localStorage.getItem('token').replace(/^"|"$/g, '');
-            const response = await axios.post('http://localhost:4000/reports/reportsByUser', { user: user._id }, {
+            const response = await axios.post('https://backendseminario.onrender.com/reports/reportsByUser', { user: user._id }, {
                 headers: {
                     'x-access-token': token
                 }

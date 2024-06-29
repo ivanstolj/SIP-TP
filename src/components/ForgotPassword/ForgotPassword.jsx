@@ -15,7 +15,7 @@ function ForgotPassword() {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:4000/users/forgotPassword', { email });
+      const response = await axios.post('https://backendseminario.onrender.com/users/forgotPassword', { email });
       if (response.status === 200) {
         Swal.fire({
           icon: 'success',

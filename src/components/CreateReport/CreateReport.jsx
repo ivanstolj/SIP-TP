@@ -85,7 +85,7 @@ const CreateReport = () => {
     if (allValid) {
       for (const report of reports) {
         try {
-          const response = await axios.post('http://localhost:4000/reports/create', report, {
+          const response = await axios.post('https://backendseminario.onrender.com/reports/create', report, {
             headers: {
               'x-access-token': token
             }

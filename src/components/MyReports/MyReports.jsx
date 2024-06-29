@@ -141,7 +141,7 @@ export default function EnhancedTable() {
             if (result.isConfirmed) {
                 try {
                     const token = localStorage.getItem('token').replace(/^"|"$/g, '');
-                    const response = await axios.delete('http://localhost:4000/reports/', {
+                    const response = await axios.delete('https://backendseminario.onrender.com/reports/', {
                         headers: {
                             'x-access-token': token
                         },

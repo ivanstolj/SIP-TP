@@ -16,7 +16,7 @@ function Registration() {
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:4000/users/registration', data);
+      const response = await axios.post('https://backendseminario.onrender.com/users/registration', data);
       Swal.fire({
         title: 'Registro Exitoso',
         text: 'Su usuario se registro con exito. !Bienvenido!',

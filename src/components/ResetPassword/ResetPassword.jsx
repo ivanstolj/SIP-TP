@@ -15,7 +15,7 @@ function ResetPassword() {
         setLoading(true);
 
         try {
-            const response = await axios.put('http://localhost:4000/users/password', { token, password });
+            const response = await axios.put('https://backendseminario.onrender.com/users/password', { token, password });
             if (response.status === 200) {
                 Swal.fire({
                     icon: 'success',

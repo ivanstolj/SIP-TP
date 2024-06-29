@@ -7,11 +7,15 @@ import { useNavigate } from 'react-router-dom';
 
 const Pricing = () => {
   const [selectMonthly, setSelectMonthly] = useState(true);
-  const { user } = useContext(ContextoAuth);
+  const { user, isLogged } = useContext(ContextoAuth);
   const navigate = useNavigate();
 
   const handleSubscribe = (plan) => {
-    navigate('/payment', { state: { plan } });
+    if (isLogged) {
+      navigate('/payment', { state: { plan } });
+    } else {
+      navigate('/login');
+    }
   };
 
   return (
@@ -41,7 +45,7 @@ const Pricing = () => {
             storage="Configuraciones Limitadas"
             users="1 usuario"
             sendUp="Sin Inteligencia Artificial"
-            isCurrentPlan={!user.premium && user.premium !== undefined}
+            isCurrentPlan={isLogged && !user.premium && user.premium !== undefined}
             handleSubscribe={() => handleSubscribe('Gratis')}
           />
           <PricingCard
@@ -50,7 +54,7 @@ const Pricing = () => {
             storage="Configuraciones Personalizadas"
             users="10 usuarios"
             sendUp="Acompañante de Inteligencia Artificial"
-            isCurrentPlan={user.premium === 'Empresarial'}
+            isCurrentPlan={isLogged && user.premium === 'Empresarial'}
             handleSubscribe={() => handleSubscribe('Empresarial')}
           />
           <PricingCard
@@ -59,7 +63,7 @@ const Pricing = () => {
             storage="Configuraciones Personalizadas"
             users="1 usuario"
             sendUp="Acompañante de Inteligencia Artificial"
-            isCurrentPlan={user.premium === 'Premium'}
+            isCurrentPlan={isLogged && user.premium === 'Premium'}
             handleSubscribe={() => handleSubscribe('Premium')}
           />
         </div>

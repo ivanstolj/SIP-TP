@@ -4,7 +4,7 @@ import {
   Box, Table, TableBody, TableCell, TableContainer, TableHead,
   TablePagination, TableRow, TableSortLabel, Typography,
   Paper, Button, Grid, Drawer, List, ListItem, Divider,
-  Container, Tooltip, IconButton, MenuItem, FormControl, InputLabel, Select, TextField
+  Container, Tooltip, IconButton, MenuItem, FormControl, InputLabel, Select, TextField, Skeleton, Stack
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import AddIcon from '@mui/icons-material/Add';
@@ -21,10 +21,19 @@ import "toastify-js/src/toastify.css";
 import './ReportsContainer.css';
 
 function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) return -1;
-  if (b[orderBy] > a[orderBy]) return 1;
+  let aValue = a[orderBy];
+  let bValue = b[orderBy];
+
+  if (orderBy === 'username') {
+    aValue = a.user.username;
+    bValue = b.user.username;
+  }
+
+  if (bValue < aValue) return -1;
+  if (bValue > aValue) return 1;
   return 0;
 }
+
 
 function getComparator(order, orderBy) {
   return order === 'desc'
@@ -45,7 +54,7 @@ function stableSort(array, comparator) {
 const headCells = [
   { id: 'content', numeric: true, disablePadding: false, label: 'Contenido' },
   { id: 'pretends', numeric: false, disablePadding: false, label: 'Simula ser' },
-  { id: 'user', numeric: false, disablePadding: false, label: 'Usuario Autor' },
+  { id: 'username', numeric: false, disablePadding: false, label: 'Usuario Autor' },
   { id: 'date', numeric: false, disablePadding: false, label: 'Fecha' },
   { id: 'likes', numeric: false, disablePadding: false, label: 'Aprobaciones' },
   { id: 'dislikes', numeric: false, disablePadding: false, label: 'Desaprobaciones' },
@@ -111,6 +120,7 @@ export default function EnhancedTable() {
     minLikes: '',
     maxLikes: ''
   });
+  const [loading, setLoading] = React.useState(false);
 
   const navigate = useNavigate();
   const { isLogged, user } = React.useContext(ContextoAuth);
@@ -118,9 +128,11 @@ export default function EnhancedTable() {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get('http://localhost:4000/reports');
+      const response = await axios.get('https://backendseminario.onrender.com/reports');
       setRows(response.data.data.docs);
+      setLoading(false);
     }
+    setLoading(true);
     fetchData();
   }, []);
 
@@ -129,6 +141,7 @@ export default function EnhancedTable() {
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -227,7 +240,7 @@ export default function EnhancedTable() {
       if (result.isConfirmed) {
         const token = localStorage.getItem('token').replace(/^"|"$/g, '');
         try {
-          const response = await axios.put(`http://localhost:4000/reports/like`, { reportId: id, userId: user._id, content: content, email: user.email }, {
+          const response = await axios.put(`https://backendseminario.onrender.com/reports/like`, { reportId: id, userId: user._id, content: content, email: user.email }, {
             headers: {
               'x-access-token': token
             }
@@ -268,7 +281,7 @@ export default function EnhancedTable() {
       if (result.isConfirmed) {
         const token = localStorage.getItem('token').replace(/^"|"$/g, '');
         try {
-          const response = await axios.put(`http://localhost:4000/reports/dislike`, { reportId: id, userId: user._id, content: content, email: user.email }, {
+          const response = await axios.put(`https://backendseminario.onrender.com/reports/dislike`, { reportId: id, userId: user._id, content: content, email: user.email }, {
             headers: {
               'x-access-token': token
             }
@@ -404,6 +417,7 @@ export default function EnhancedTable() {
     </Box>
   );
 
+
   return (
     <div className='reports'>
       <Container sx={{ width: '100%', marginTop: 5, backgroundColor: '#f5f5f5', padding: 4, borderRadius: 2 }} maxWidth="xl">
@@ -438,65 +452,76 @@ export default function EnhancedTable() {
         </Drawer>
         <Paper sx={{ width: '100%', mb: 2, mt: 2 }}>
           <TableContainer>
-            <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-              <EnhancedTableHead
-                order={order}
-                orderBy={orderBy}
-                onRequestSort={handleRequestSort}
-                rowCount={filteredRows.length}
-              />
-              <TableBody>
-                {visibleRows.map((row, index) => {
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  const userLiked = user && row.likesBy && row.likesBy.includes(user._id) ? true : false;
-                  const userDisliked = user && row.dislikesBy && row.dislikesBy.includes(user._id) ? true : false;
+            {
+              loading ? <Stack spacing={1}>
+                <Skeleton variant="text" sx={{ fontSize: '5rem' }} />
+                <Skeleton variant="rectangular" height={60} sx={{ width: '95%', alignSelf: 'center' }} />
+                <Skeleton variant="rectangular" height={60} sx={{ width: '95%', alignSelf: 'center' }} />
+                <Skeleton variant="rectangular" height={60} sx={{ width: '95%', alignSelf: 'center' }} />
+                <Skeleton variant="rectangular" height={60} sx={{ width: '95%', alignSelf: 'center' }} />
+                <Skeleton variant="rectangular" height={60} sx={{ width: '95%', alignSelf: 'center' }} />
+              </Stack> :
+                <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+                  <EnhancedTableHead
+                    order={order}
+                    orderBy={orderBy}
+                    onRequestSort={handleRequestSort}
+                    rowCount={filteredRows.length}
+                  />
+                  <TableBody>
+                    {visibleRows.map((row, index) => {
+                      const labelId = `enhanced-table-checkbox-${index}`;
+                      const userLiked = user && row.likesBy && row.likesBy.includes(user._id) ? true : false;
+                      const userDisliked = user && row.dislikesBy && row.dislikesBy.includes(user._id) ? true : false;
 
-                  return (
-                    <TableRow hover tabIndex={-1} key={row.id}>
-                      <TableCell component="th" id={labelId} scope="row" padding="normal">
-                        {row.content}
-                      </TableCell>
-                      <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.pretends}</TableCell>
-                      <TableCell align="center" sx={{ paddingRight: "40px" }}> {row.user.username}</TableCell>
-                      <TableCell align="center" sx={{ paddingRight: "40px" }}>{formatDateTime(row.date)}</TableCell>
-                      <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.likes}</TableCell>
-                      <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.dislikes}</TableCell>
-                      {
-                        user ?
-                          row.user._id === user._id ?
-                            <TableCell align="center" sx={{ paddingRight: "40px" }}>
-                              <Typography variant="body2" sx={{ fontWeight: 'bold' }}>Reporte propio</Typography>
-                            </TableCell> :
-                            <TableCell align="center" sx={{ paddingRight: "40px" }}>
-                              <Tooltip title={userLiked ? 'Ya aprobado' : 'Aprobar'}>
-                                <ThumbUpIcon
-                                  onClick={!userLiked ? () => { handleLike(row._id, row.content) } : null}
-                                  sx={{ marginRight: '10px', cursor: userLiked ? 'not-allowed' : 'pointer' }}
-                                  color={userLiked ? 'disabled' : 'success'}
-                                />
-                              </Tooltip>
-                              <Tooltip title={userDisliked ? 'Ya desaprobado' : 'Desaprobar'}>
-                                <ThumbDownIcon
-                                  color={userDisliked ? 'disabled' : 'error'}
-                                  onClick={!userDisliked ? () => { handleDislike(row._id, row.content) } : null}
-                                  sx={{ cursor: userDisliked ? 'not-allowed' : 'pointer' }}
-                                />
-                              </Tooltip>
-                            </TableCell> :
-                          <TableCell align="center" sx={{ paddingRight: "40px" }}>
-                            <Typography variant="body2" sx={{ fontWeight: 'bold' }}><Link to="/login" className="linkLogin">Inicie sesión</Link> para poder aprobar<br></br> o desaprobar reportes</Typography>
+                      return (
+                        <TableRow hover tabIndex={-1} key={row.id}>
+                          <TableCell component="th" id={labelId} scope="row" padding="normal">
+                            {row.content}
                           </TableCell>
-                      }
-                    </TableRow>
-                  );
-                })}
-                {emptyRows > 0 && (
-                  <TableRow style={{ height: (53) * emptyRows }}>
-                    <TableCell colSpan={6} />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
+                          <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.pretends}</TableCell>
+                          <TableCell align="center" sx={{ paddingRight: "40px" }}> {row.user.username}</TableCell>
+                          <TableCell align="center" sx={{ paddingRight: "40px" }}>{formatDateTime(row.date)}</TableCell>
+                          <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.likes}</TableCell>
+                          <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.dislikes}</TableCell>
+                          {
+                            user ?
+                              row.user._id === user._id ?
+                                <TableCell align="center" sx={{ paddingRight: "40px" }}>
+                                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>Reporte propio</Typography>
+                                </TableCell> :
+                                <TableCell align="center" sx={{ paddingRight: "40px" }}>
+                                  <Tooltip title={userLiked ? 'Ya aprobado' : 'Aprobar'}>
+                                    <ThumbUpIcon
+                                      onClick={!userLiked ? () => { handleLike(row._id, row.content) } : null}
+                                      sx={{ marginRight: '10px', cursor: userLiked ? 'not-allowed' : 'pointer' }}
+                                      color={userLiked ? 'disabled' : 'success'}
+                                    />
+                                  </Tooltip>
+                                  <Tooltip title={userDisliked ? 'Ya desaprobado' : 'Desaprobar'}>
+                                    <ThumbDownIcon
+                                      color={userDisliked ? 'disabled' : 'error'}
+                                      onClick={!userDisliked ? () => { handleDislike(row._id, row.content) } : null}
+                                      sx={{ cursor: userDisliked ? 'not-allowed' : 'pointer' }}
+                                    />
+                                  </Tooltip>
+                                </TableCell> :
+                              <TableCell align="center" sx={{ paddingRight: "40px" }}>
+                                <Typography variant="body2" sx={{ fontWeight: 'bold' }}><Link to="/login" className="linkLogin">Inicie sesión</Link> para poder aprobar<br></br> o desaprobar reportes</Typography>
+                              </TableCell>
+                          }
+                        </TableRow>
+                      );
+                    })}
+                    {emptyRows > 0 && (
+                      <TableRow style={{ height: (53) * emptyRows }}>
+                        <TableCell colSpan={6} />
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+            }
+
           </TableContainer>
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
