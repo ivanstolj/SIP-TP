@@ -4,7 +4,8 @@ import {
     Box, Table, TableBody, TableCell, TableContainer, TableHead,
     TablePagination, TableRow, TableSortLabel, Typography,
     Paper, Button, Grid, Drawer, List, ListItem, Divider,
-    Container, IconButton, MenuItem, FormControl, InputLabel, Select
+    Container, IconButton, MenuItem, FormControl, InputLabel, Select,
+    Stack
 } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import AddIcon from '@mui/icons-material/Add';
@@ -101,7 +102,7 @@ export default function EnhancedTable() {
     const [drawerOpen, setDrawerOpen] = React.useState(false);
     const navigate = useNavigate();
     const { isLogged, user } = React.useContext(ContextoAuth);
-    const { MyReports } = React.useContext(ContextoReports)
+    const { MyReports } = React.useContext(ContextoReports);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -172,7 +173,7 @@ export default function EnhancedTable() {
 
             }
         });
-    }
+    };
 
     const toggleDrawer = (open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -196,7 +197,6 @@ export default function EnhancedTable() {
         [order, orderBy, page, rowsPerPage, filteredRows],
     );
 
-
     const formatDateTime = (isoString) => {
         const date = new Date(isoString);
 
@@ -216,8 +216,6 @@ export default function EnhancedTable() {
         <Box
             sx={{ width: 250 }}
             role="presentation"
-            onClick={toggleDrawer(false)}
-            onKeyDown={toggleDrawer(false)}
         >
             <List>
                 <ListItem>
@@ -244,15 +242,14 @@ export default function EnhancedTable() {
                     </FormControl>
                 </ListItem>
                 <Typography variant="h6">Que simula</Typography>
-
                 <ListItem>
                     <FormControl variant="outlined" sx={{ width: '100%' }}>
-                        <InputLabel id="filter-label">Tipo</InputLabel>
+                        <InputLabel id="filter-pretends-label">Tipo</InputLabel>
                         <Select
-                            labelId="filter-label"
+                            labelId="filter-pretends-label"
                             value={filter}
                             onChange={handleFilterChange}
-                            label="Tipo"
+                            label="Simula ser"
                             sx={{ backgroundColor: 'white', borderRadius: 1 }}
                         >
                             <MenuItem value="">
@@ -284,13 +281,12 @@ export default function EnhancedTable() {
                     <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#3f51b5' }}>
                         Mis Reportes
                     </Typography>
-                    <Box>
+                    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
                         <IconButton
                             edge="end"
                             color="inherit"
                             aria-label="open drawer"
                             onClick={toggleDrawer(true)}
-                            sx={{ marginRight: 2 }}
                         >
                             <FilterListIcon />
                         </IconButton>
@@ -308,7 +304,7 @@ export default function EnhancedTable() {
                             <Button
                                 variant='contained'
                                 size='large'
-                                sx={{ backgroundColor: '#3f51b5', color: 'white', '&:hover': { backgroundColor: '#303f9f' }, marginLeft: 2 }}
+                                sx={{ backgroundColor: '#3f51b5', color: 'white', '&:hover': { backgroundColor: '#303f9f' } }}
                             >
                                 Exportar CSV
                             </Button>
@@ -319,8 +315,8 @@ export default function EnhancedTable() {
                     {list()}
                 </Drawer>
                 <Paper sx={{ width: '100%', mb: 2, mt: 2 }}>
-                    <TableContainer>
-                        <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
+                    <TableContainer sx={{ maxHeight: 440 }}>
+                        <Table stickyHeader aria-label="sticky table" sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
                             <EnhancedTableHead
                                 order={order}
                                 orderBy={orderBy}
