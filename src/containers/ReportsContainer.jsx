@@ -126,6 +126,116 @@ export default function EnhancedTable() {
   const { isLogged, user } = React.useContext(ContextoAuth);
 
 
+  const handleLike = async (id, content) => {
+    Swal.fire({
+      title: "¿Confirmar Acción?",
+      text: "Esto aprobará el reporte.",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem('token').replace(/^"|"$/g, '');
+        try {
+          const response = await axios.put(`https://backendseminario.onrender.com/reports/like`, { reportId: id, userId: user._id, content: content, email: user.email }, {
+            headers: {
+              'x-access-token': token
+            }
+          });
+          console.log(response);
+          // Actualiza el estado de los reportes
+          setRows(prevRows => prevRows.map(row => {
+            if (row._id === id) {
+              const isDisliked = row.dislikesBy.includes(user._id);
+              return {
+                ...row,
+                likes: row.likes + 1,
+                likesBy: [...row.likesBy, user._id],
+                dislikes: isDisliked ? row.dislikes - 1 : row.dislikes,
+                dislikesBy: isDisliked ? row.dislikesBy.filter(uid => uid !== user._id) : row.dislikesBy
+              };
+            }
+            return row;
+          }));
+          Swal.fire({
+            title: "¡Listo!",
+            text: "El reporte ha sido aprobado.",
+            icon: "success"
+          });
+        } catch (e) {
+          console.log(e);
+          Toastify({
+            text: "Ha habido un error. Por favor, inténtelo de nuevo.",
+            style: {
+              background: "red",
+            },
+            duration: "3000",
+            close: true,
+          }).showToast();
+        }
+      }
+    });
+  };
+
+  const handleDislike = async (id, content) => {
+    Swal.fire({
+      title: "¿Confirmar Acción?",
+      text: "Esto desaprobará el reporte.",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirmar",
+      cancelButtonText: "Cancelar"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const token = localStorage.getItem('token').replace(/^"|"$/g, '');
+        try {
+          const response = await axios.put(`https://backendseminario.onrender.com/reports/dislike`, { reportId: id, userId: user._id, content: content, email: user.email }, {
+            headers: {
+              'x-access-token': token
+            }
+          });
+          console.log(response);
+          // Actualiza el estado de los reportes
+          setRows(prevRows => prevRows.map(row => {
+            if (row._id === id) {
+              const isLiked = row.likesBy.includes(user._id);
+              return {
+                ...row,
+                dislikes: row.dislikes + 1,
+                dislikesBy: [...row.dislikesBy, user._id],
+                likes: isLiked ? row.likes - 1 : row.likes,
+                likesBy: isLiked ? row.likesBy.filter(uid => uid !== user._id) : row.likesBy
+              };
+            }
+            return row;
+          }));
+          Swal.fire({
+            title: "¡Listo!",
+            text: "El reporte ha sido desaprobado.",
+            icon: "success"
+          });
+        } catch (e) {
+          console.log(e);
+          Toastify({
+            text: "Ha habido un error. Por favor, inténtelo de nuevo.",
+            style: {
+              background: "red",
+            },
+            duration: "3000",
+            close: true,
+          }).showToast();
+        }
+      }
+    });
+  };
+
+
+
   useEffect(() => {
     async function fetchData() {
       const response = await axios.get('https://backendseminario.onrender.com/reports');
@@ -226,87 +336,6 @@ export default function EnhancedTable() {
     [order, orderBy, page, rowsPerPage, filteredRows],
   );
 
-  const handleLike = async (id, content) => {
-    Swal.fire({
-      title: "¿Confirmar Acción?",
-      text: "Esto aprobará el reporte.",
-      icon: "info",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Confirmar",
-      cancelButtonText: "Cancelar"
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem('token').replace(/^"|"$/g, '');
-        try {
-          const response = await axios.put(`https://backendseminario.onrender.com/reports/like`, { reportId: id, userId: user._id, content: content, email: user.email }, {
-            headers: {
-              'x-access-token': token
-            }
-          });
-          console.log(response);
-          Swal.fire({
-            title: "¡Listo!",
-            text: "El reporte ha sido aprobado.",
-            icon: "success"
-          }).then(() => window.location.reload());
-        }
-        catch (e) {
-          console.log(e);
-          Toastify({
-            text: "Ha habido un error. Por favor, inténtelo de nuevo.",
-            style: {
-              background: "red",
-            },
-            duration: "3000",
-            close: true,
-          }).showToast();
-        }
-      }
-    });
-  };
-
-  const handleDislike = async (id, content) => {
-    Swal.fire({
-      title: "¿Confirmar Acción?",
-      text: "Esto desaprobará el reporte.",
-      icon: "info",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Confirmar",
-      cancelButtonText: "Cancelar"
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        const token = localStorage.getItem('token').replace(/^"|"$/g, '');
-        try {
-          const response = await axios.put(`https://backendseminario.onrender.com/reports/dislike`, { reportId: id, userId: user._id, content: content, email: user.email }, {
-            headers: {
-              'x-access-token': token
-            }
-          });
-          console.log(response);
-          Swal.fire({
-            title: "¡Listo!",
-            text: "El reporte ha sido desaprobado.",
-            icon: "success"
-          }).then(() => window.location.reload());
-        }
-        catch (e) {
-          console.log(e);
-          Toastify({
-            text: "Ha habido un error. Por favor, inténtelo de nuevo.",
-            style: {
-              background: "red",
-            },
-            duration: "3000",
-            close: true,
-          }).showToast();
-        }
-      }
-    });
-  };
 
   const formatDateTime = (isoString) => {
     const date = new Date(isoString);
@@ -471,8 +500,8 @@ export default function EnhancedTable() {
                   <TableBody>
                     {visibleRows.map((row, index) => {
                       const labelId = `enhanced-table-checkbox-${index}`;
-                      const userLiked = user && row.likesBy && row.likesBy.includes(user._id) ? true : false;
-                      const userDisliked = user && row.dislikesBy && row.dislikesBy.includes(user._id) ? true : false;
+                      const userLiked = user && row.likesBy && row.likesBy.includes(user._id);
+                      const userDisliked = user && row.dislikesBy && row.dislikesBy.includes(user._id);
 
                       return (
                         <TableRow hover tabIndex={-1} key={row.id}>
@@ -513,12 +542,8 @@ export default function EnhancedTable() {
                         </TableRow>
                       );
                     })}
-                    {emptyRows > 0 && (
-                      <TableRow style={{ height: (53) * emptyRows }}>
-                        <TableCell colSpan={6} />
-                      </TableRow>
-                    )}
                   </TableBody>
+
                 </Table>
             }
 
