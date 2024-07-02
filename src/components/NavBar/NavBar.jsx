@@ -66,7 +66,7 @@ function NavBar() {
 
   if (isLogged) {
     return (
-      <AppBar position="static" sx={{ backgroundColor: '#595959' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#724ae8' }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <AdbIcon className="logo-icon" sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -190,7 +190,7 @@ function NavBar() {
     );
   } else {
     return (
-      <AppBar position="static" sx={{ backgroundColor: '#595959' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#724ae8' }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <AdbIcon className="logo-icon" sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -282,7 +282,7 @@ function NavBar() {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Remy Sharp"/>
                 </IconButton>
               </Tooltip>
               <Menu

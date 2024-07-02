@@ -75,7 +75,7 @@ const UserProfile = () => {
               variant="contained"
               startIcon={isEditing ? <CancelIcon /> : <EditIcon />}
               className="edit-profile-button"
-              sx={{ backgroundColor: isEditing ? '#f44336' : '#007bff', color: 'white', marginTop: 2, '&:hover': { backgroundColor: isEditing ? '#d32f2f' : '#0056b3' } }}
+              sx={{ backgroundColor: isEditing ? '#f44336' : '#724ae8', color: 'white', marginTop: 2, '&:hover': { backgroundColor: isEditing ? '#d32f2f' : '#6f5da5' } }}
               onClick={handleEditClick}
             >
               {isEditing ? "Dejar de Editar" : "Editar Perfil"}
@@ -131,7 +131,7 @@ const UserProfile = () => {
                   variant="contained"
                   color="primary"
                   className="save-profile-button"
-                  sx={{ backgroundColor: '#007bff', '&:hover': { backgroundColor: '#0056b3' } }}
+                  sx={{ backgroundColor: '#724ae8', '&:hover': { backgroundColor: '#6f5da5' } }}
                   onClick={handleSaveChanges}
                   startIcon={<SaveIcon />}
                 >

@@ -296,7 +296,7 @@ export default function EnhancedTable() {
                             onClick={handleCreateReportView}
                             endIcon={<AddIcon />}
                             disabled={!isLogged}
-                            sx={{ backgroundColor: '#3f51b5', color: 'white', '&:hover': { backgroundColor: '#303f9f' } }}
+                            sx={{ backgroundColor: '#724ae8', color: 'white', '&:hover': { backgroundColor: '#6f5da5' } }}
                         >
                             Crear reporte
                         </Button>
@@ -304,7 +304,7 @@ export default function EnhancedTable() {
                             <Button
                                 variant='contained'
                                 size='large'
-                                sx={{ backgroundColor: '#3f51b5', color: 'white', '&:hover': { backgroundColor: '#303f9f' } }}
+                                sx={{ backgroundColor: '#27bf2b', color: 'white', '&:hover': { backgroundColor: '#57d15a' } }}
                             >
                                 Exportar CSV
                             </Button>

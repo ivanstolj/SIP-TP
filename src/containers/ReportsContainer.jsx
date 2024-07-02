@@ -470,7 +470,7 @@ export default function EnhancedTable() {
               onClick={handleCreateReportView}
               endIcon={<AddIcon />}
               disabled={!isLogged}
-              sx={{ backgroundColor: '#3f51b5', color: 'white', '&:hover': { backgroundColor: '#303f9f' } }}
+              sx={{ backgroundColor: '#724ae8', color: 'white', '&:hover': { backgroundColor: '#6f5da5' } }}
             >
               Crear reporte
             </Button>

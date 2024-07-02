@@ -1,27 +1,63 @@
 import React, { useState } from 'react';
-import { Box, Typography, Container, Grid, Card, CardContent, TextField, LinearProgress } from '@mui/material';
+import { Box, Typography, Container, Grid, Card, CardContent, TextField, Button, Checkbox, FormControlLabel } from '@mui/material';
 import './Tips.css';
 
 function Tips() {
-  const [password, setPassword] = useState('');
-  const [passwordStrength, setPasswordStrength] = useState(0);
+  const [words, setWords] = useState(['', '', '']);
+  const [numCount, setNumCount] = useState(0);
+  const [specialCharCount, setSpecialCharCount] = useState(0);
+  const [useNumbers, setUseNumbers] = useState(false);
+  const [useSpecialChars, setUseSpecialChars] = useState(false);
+  const [generatedPasswords, setGeneratedPasswords] = useState([]);
 
-  const handlePasswordChange = (event) => {
-    const newPassword = event.target.value;
-    setPassword(newPassword);
-    setPasswordStrength(calculatePasswordStrength(newPassword));
+  const handleWordsChange = (index, event) => {
+    const newWords = [...words];
+    newWords[index] = event.target.value;
+    setWords(newWords);
   };
 
-  const calculatePasswordStrength = (password) => {
-    let strength = 0;
-    if (password.length > 7) strength += 1;
-    if (password.length > 10) strength += 1;
-    if (/[A-Z]/.test(password)) strength += 1;
-    if (/[0-9]/.test(password)) strength += 1;
-    if (/[^A-Za-z0-9]/.test(password)) strength += 1;
-    return (strength / 5) * 100;
+  const handleGeneratePasswords = () => {
+    const filteredWords = words.filter(word => word.length > 0);
+    const passwords = [];
+    for (let i = 0; i < 3; i++) {
+      passwords.push(generatePassword(filteredWords, useNumbers ? numCount : 0, useSpecialChars ? specialCharCount : 0));
+    }
+    setGeneratedPasswords(passwords);
   };
 
+  const generatePassword = (words, numCount, specialCharCount) => {
+    const capitalize = (word) => word.charAt(0).toUpperCase() + word.slice(1);
+    const getRandomInt = (max) => Math.floor(Math.random() * max);
+    const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
+    const specialChars = "!#$%^&*_+|;:,.?";
+
+    let shuffledWords = shuffleArray(words.map(capitalize));
+
+    // Add special characters between words or at the end
+    for (let i = 0; i < specialCharCount; i++) {
+      const randomSpecialChar = specialChars.charAt(getRandomInt(specialChars.length));
+      const insertPosition = getRandomInt(shuffledWords.length + 1); // Position to insert special char
+      if (insertPosition === shuffledWords.length) {
+        shuffledWords.push(randomSpecialChar);
+      } else {
+        shuffledWords.splice(insertPosition, 0, randomSpecialChar);
+      }
+    }
+
+    let password = shuffledWords.join('');
+
+    // Add numbers at the end
+    const addNumbers = (password, numCount) => {
+      for (let i = 0; i < numCount; i++) {
+        password += getRandomInt(10);
+      }
+      return password;
+    };
+
+    if (numCount > 0) password = addNumbers(password, numCount);
+
+    return password;
+  };
 
   return (
     <Container maxWidth="lg" className="tips-container">
@@ -115,98 +151,80 @@ function Tips() {
         </Grid>
       </Grid>
 
-      <Box className="additional-tips-box" sx={{ mt: 5, py: 5 }}>
+      <Box className="password-generator-box" sx={{ mt: 5, py: 5, textAlign: 'center' }}>
         <Typography variant="h4" component="h2" gutterBottom>
-          Más Consejos
+          Generador de Contraseñas Seguras
         </Typography>
-        <Typography variant="body1" component="p" gutterBottom>
-          Aquí hay algunos consejos adicionales para mantener tu información segura en línea:
-        </Typography>
-        <ul>
-          <li>
-            <Typography variant="body1" component="p" gutterBottom>
-              <strong>Usa un administrador de contraseñas:</strong> Los administradores de contraseñas pueden ayudarte a crear y gestionar contraseñas seguras para cada uno de tus sitios.
-            </Typography>
-          </li>
-          <li>
-            <Typography variant="body1" component="p" gutterBottom>
-              <strong>Realiza copias de seguridad:</strong> Asegúrate de tener copias de seguridad de tus archivos importantes en un lugar seguro, como un disco externo o un servicio de almacenamiento en la nube.
-            </Typography>
-          </li>
-          <li>
-            <Typography variant="body1" component="p" gutterBottom>
-              <strong>Protege tu red doméstica:</strong> Cambia las contraseñas predeterminadas de tu router y habilita el cifrado WPA3 para asegurar tu red Wi-Fi.
-            </Typography>
-          </li>
-          <li>
-            <Typography variant="body1" component="p" gutterBottom>
-              <strong>Desconfía de las ofertas demasiado buenas:</strong> Si una oferta en línea parece demasiado buena para ser verdad, probablemente lo sea. No caigas en trampas de ofertas fraudulentas.
-            </Typography>
-          </li>
-          <li>
-            <Typography variant="body1" component="p" gutterBottom>
-              <strong>Consulta fuentes confiables:</strong> Obtén información y noticias de seguridad informática de fuentes confiables y reconocidas.
-            </Typography>
-          </li>
-        </ul>
-      </Box>
-
-      <Box className="useful-tools-box" sx={{ mt: 5, py: 5 }}>
-        <Typography variant="h4" component="h2" gutterBottom>
-          Herramientas Útiles
-        </Typography>
-        <Typography variant="body1" component="p" gutterBottom>
-          Aquí hay algunas herramientas que pueden ayudarte a mantenerte seguro en línea:
-        </Typography>
-        <ul>
-          <li>
-            <Typography variant="body1" component="p" gutterBottom>
-              <strong>Administrador de Contraseñas:</strong> LastPass, 1Password, Bitwarden.
-            </Typography>
-          </li>
-          <li>
-            <Typography variant="body1" component="p" gutterBottom>
-              <strong>Antivirus:</strong> Norton, McAfee, Bitdefender.
-            </Typography>
-          </li>
-          <li>
-            <Typography variant="body1" component="p" gutterBottom>
-              <strong>VPN:</strong> NordVPN, ExpressVPN, CyberGhost.
-            </Typography>
-          </li>
-          <li>
-            <Typography variant="body1" component="p" gutterBottom>
-              <strong>Extensiones de Navegador:</strong> HTTPS Everywhere, uBlock Origin, Privacy Badger.
-            </Typography>
-          </li>
-          <li>
-            <Typography variant="body1" component="p" gutterBottom>
-              <strong>Copias de Seguridad:</strong> Backblaze, Google Drive, Dropbox.
-            </Typography>
-          </li>
-        </ul>
-      </Box>
-
-      <Box className="password-checker-box" sx={{ mt: 5, py: 5, textAlign: 'center' }}>
-        <Typography variant="h4" component="h2" gutterBottom>
-          Verifica la Fortaleza de tu Contraseña
-        </Typography>
-        <Box sx={{ width: '100%', maxWidth: 400, mx: 'auto' }}>
-          <TextField
-            label="Introduce tu contraseña"
-            variant="outlined"
-            type="password"
-            value={password}
-            onChange={handlePasswordChange}
-            sx={{ width: '100%', mb: 2 }}
-          />
-          <LinearProgress variant="determinate" value={passwordStrength} sx={{ height: 10, borderRadius: 5 }} />
-          <Typography variant="body1" component="p" sx={{ mt: 1 }}>
-            {passwordStrength < 40 && 'Contraseña débil'}
-            {passwordStrength >= 40 && passwordStrength < 70 && 'Contraseña moderada'}
-            {passwordStrength >= 70 && 'Contraseña fuerte'}
-          </Typography>
-        </Box>
+        <Grid container spacing={2} sx={{ maxWidth: 600, mx: 'auto', textAlign: 'left' }}>
+          {words.map((word, index) => (
+            <Grid item xs={12} sm={4} key={index}>
+              <TextField
+                label={`Palabra ${index + 1}`}
+                variant="outlined"
+                value={word}
+                onChange={(event) => handleWordsChange(index, event)}
+                fullWidth
+              />
+            </Grid>
+          ))}
+          <Grid item xs={12}>
+            <FormControlLabel
+              control={<Checkbox checked={useNumbers} onChange={() => setUseNumbers(!useNumbers)} />}
+              label="Usar números"
+            />
+          </Grid>
+          {useNumbers && (
+            <Grid item xs={12}>
+              <TextField
+                label="Cantidad de números"
+                variant="outlined"
+                type="number"
+                value={numCount}
+                onChange={(event) => setNumCount(parseInt(event.target.value))}
+                fullWidth
+              />
+            </Grid>
+          )}
+          <Grid item xs={12}>
+            <FormControlLabel
+              control={<Checkbox checked={useSpecialChars} onChange={() => setUseSpecialChars(!useSpecialChars)} />}
+              label="Usar caracteres especiales"
+            />
+          </Grid>
+          {useSpecialChars && (
+            <Grid item xs={12}>
+              <TextField
+                label="Cantidad de caracteres especiales"
+                variant="outlined"
+                type="number"
+                value={specialCharCount}
+                onChange={(event) => setSpecialCharCount(parseInt(event.target.value))}
+                fullWidth
+              />
+            </Grid>
+          )}
+          <Grid item xs={12}>
+            <Button variant="contained" color="primary" onClick={handleGeneratePasswords} fullWidth>
+              Generar Contraseñas
+            </Button>
+          </Grid>
+          {generatedPasswords.length > 0 && (
+            <Grid item xs={12}>
+              <Typography variant="h6" component="p" gutterBottom>
+                Contraseñas Generadas:
+              </Typography>
+              <ul>
+                {generatedPasswords.map((password, index) => (
+                  <li key={index}>
+                    <Typography variant="body1" component="p">
+                      {password}
+                    </Typography>
+                  </li>
+                ))}
+              </ul>
+            </Grid>
+          )}
+        </Grid>
       </Box>
     </Container>
   );
