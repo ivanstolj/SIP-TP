@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import AdbIcon from '@mui/icons-material/Adb';
 import ContextoAuth from '../../Context/AuthContext';
 import './NavBar.css';
+import Logo from '../../Logo.png';
+
 
 const pages = [
   { name: 'Menu', path: '/' },
@@ -69,7 +71,7 @@ function NavBar() {
       <AppBar position="static" sx={{ backgroundColor: '#724ae8' }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <AdbIcon className="logo-icon" sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            <Avatar sx={{ display: { xs: 'flex'}, mr: 1 }} src={Logo}/>
             <Typography
               variant="h6"
               noWrap

@@ -91,7 +91,7 @@ function Tips() {
                 Mantén tu Software Actualizado
               </Typography>
               <Typography variant="body1" component="p">
-                Asegúrate de que todos tus dispositivos y aplicaciones tengan instaladas las últimas actualizaciones de seguridad. 
+                Asegúrate de que todos tus dispositivos y aplicaciones tengan instaladas las últimas actualizaciones de seguridad.
                 Las actualizaciones corrigen vulnerabilidades que pueden ser explotadas por los atacantes.
               </Typography>
             </CardContent>
@@ -104,7 +104,7 @@ function Tips() {
                 Cuidado con los Correos Electrónicos
               </Typography>
               <Typography variant="body1" component="p">
-                No abras correos electrónicos de remitentes desconocidos y no hagas clic en enlaces sospechosos. 
+                No abras correos electrónicos de remitentes desconocidos y no hagas clic en enlaces sospechosos.
                 Los correos de phishing pueden parecer legítimos pero están diseñados para robar tu información personal.
               </Typography>
             </CardContent>
@@ -117,7 +117,7 @@ function Tips() {
                 Usa Autenticación de Dos Factores
               </Typography>
               <Typography variant="body1" component="p">
-                Habilita la autenticación de dos factores (2FA) siempre que sea posible. Esto añade una capa extra de seguridad al requerir 
+                Habilita la autenticación de dos factores (2FA) siempre que sea posible. Esto añade una capa extra de seguridad al requerir
                 un segundo paso de verificación además de tu contraseña.
               </Typography>
             </CardContent>
@@ -130,7 +130,7 @@ function Tips() {
                 Practica la Navegación Segura
               </Typography>
               <Typography variant="body1" component="p">
-                Utiliza navegadores seguros y extensiones que bloqueen sitios maliciosos. 
+                Utiliza navegadores seguros y extensiones que bloqueen sitios maliciosos.
                 Verifica que las páginas que visitas utilizan HTTPS para asegurar la transferencia de datos.
               </Typography>
             </CardContent>
@@ -143,7 +143,7 @@ function Tips() {
                 Cuidado con las Redes Públicas
               </Typography>
               <Typography variant="body1" component="p">
-                Evita realizar transacciones sensibles o acceder a información personal desde redes Wi-Fi públicas. 
+                Evita realizar transacciones sensibles o acceder a información personal desde redes Wi-Fi públicas.
                 Utiliza una VPN para cifrar tu conexión y proteger tus datos cuando estés conectado a redes desconocidas.
               </Typography>
             </CardContent>
@@ -204,7 +204,7 @@ function Tips() {
             </Grid>
           )}
           <Grid item xs={12}>
-            <Button variant="contained" color="primary" onClick={handleGeneratePasswords} fullWidth>
+            <Button variant="contained" color="primary" onClick={handleGeneratePasswords} fullWidth sx={{ backgroundColor: '#724ae8', color: 'white', '&:hover': { backgroundColor: '#6f5da5' } }}>
               Generar Contraseñas
             </Button>
           </Grid>
