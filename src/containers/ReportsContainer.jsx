@@ -263,7 +263,7 @@ export default function EnhancedTable() {
   };
 
   const handleCreateReportView = () => {
-    navigate('/reportes/crearReporte');
+    navigate('/reportes/crearDenuncia');
   };
 
   const handleFilterTypeChange = (event) => {
@@ -452,7 +452,7 @@ export default function EnhancedTable() {
       <Container sx={{ width: '100%', marginTop: 5, backgroundColor: '#f5f5f5', padding: 4, borderRadius: 2 }} maxWidth="xl">
         <Grid container alignItems="center" justifyContent="space-between" sx={{ marginBottom: 2 }}>
           <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#3f51b5' }}>
-            Reportes
+            Denuncias
           </Typography>
           <Box>
             <IconButton
@@ -517,7 +517,7 @@ export default function EnhancedTable() {
                             user ?
                               row.user._id === user._id ?
                                 <TableCell align="center" sx={{ paddingRight: "40px" }}>
-                                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>Reporte propio</Typography>
+                                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>Denuncia propia</Typography>
                                 </TableCell> :
                                 <TableCell align="center" sx={{ paddingRight: "40px" }}>
                                   <Tooltip title={userLiked ? 'Ya aprobado' : 'Aprobar'}>

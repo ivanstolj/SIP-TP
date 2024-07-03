@@ -44,10 +44,10 @@ function HomePage() {
           En tu perfil, puedes ver y editar tu información personal. Asegúrate de mantener tus datos actualizados para una mejor experiencia.
         </Typography>
         <Typography variant="h5" component="h3" gutterBottom sx={{ mt: 4 }}>
-          Mis Reportes
+          Mis Denuncias
         </Typography>
         <Typography variant="body1" component="p" gutterBottom>
-          En la sección "Mis Reportes", puedes ver todos los reportes que has enviado, su estado y detalles adicionales. Mantén un seguimiento de tus contribuciones.
+          En la sección "Mis Denuncias", puedes ver todos los reportes que has enviado, su estado y detalles adicionales. Mantén un seguimiento de tus contribuciones.
         </Typography>
       </Box>
       <Grid container spacing={4} sx={{ mt: 5 }}>
@@ -55,7 +55,7 @@ function HomePage() {
           <Card className="feature-card">
             <CardContent>
               <Typography variant="h5" component="h2" gutterBottom>
-                Reportes de Emails
+                Denuncias de Emails
               </Typography>
               <Typography variant="body1" component="p">
                 Informa sobre correos electrónicos sospechosos o maliciosos.
@@ -67,7 +67,7 @@ function HomePage() {
           <Card className="feature-card">
             <CardContent>
               <Typography variant="h5" component="h2" gutterBottom>
-                Reportes de Páginas Web
+                Denuncias de Páginas Web
               </Typography>
               <Typography variant="body1" component="p">
                 Advierte sobre sitios web que podrían ser peligrosos.
@@ -79,7 +79,7 @@ function HomePage() {
           <Card className="feature-card">
             <CardContent>
               <Typography variant="h5" component="h2" gutterBottom>
-                Reportes de Teléfonos
+                Denuncias de Teléfonos
               </Typography>
               <Typography variant="body1" component="p">
                 Notifica números de teléfono utilizados para fraudes.

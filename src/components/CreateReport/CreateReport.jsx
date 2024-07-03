@@ -101,11 +101,11 @@ const CreateReport = () => {
       setLoading(false);
 
       Swal.fire({
-        title: 'Resultados del Reporte',
+        title: 'Resultados de las denuncias',
         html: `
-          <h3>Reportes Exitosos:</h3>
+          <h3>Denuncias Exitosas:</h3>
           <ul>${successReports.map(r => `<li>${r.content} (${r.type})</li>`).join('')}</ul>
-          <h3>Reportes Fallidos:</h3>
+          <h3>Denuncias Fallidas:</h3>
           <ul>${failedReports.map(r => `<li>${r.content} (${r.type})</li>`).join('')}</ul>
         `,
         icon: 'info'
@@ -124,7 +124,7 @@ const CreateReport = () => {
 
   return (
     <Container maxWidth="md" sx={{ marginTop: 4, backgroundColor: '#f5f5f5', padding: 4, borderRadius: 2 }}>
-      <Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: 2, color: '#3f51b5' }}>Crear Reporte</Typography>
+      <Typography variant="h4" sx={{ fontWeight: 'bold', marginBottom: 2, color: '#3f51b5' }}>Crear Denuncia</Typography>
       <form onSubmit={handleSubmit}>
         {reports.map((report, index) => (
           <Paper key={index} elevation={3} sx={{ padding: 3, marginBottom: 3 }}>
@@ -194,14 +194,14 @@ const CreateReport = () => {
                 </Grid>
                 <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: 2 }}>
                   {reports.length > 1 && (
-                    <Tooltip title="Eliminar Reporte">
+                    <Tooltip title="Eliminar Denuncia">
                       <IconButton onClick={() => handleRemoveReport(index)} color="secondary">
                         <RemoveIcon />
                       </IconButton>
                     </Tooltip>
                   )}
                   {index === reports.length - 1 && reports.length < 5 && (
-                    <Tooltip title="Agregar Reporte">
+                    <Tooltip title="Agregar Denuncia">
                       <IconButton onClick={handleAddReport} color="primary">
                         <AddIcon />
                       </IconButton>
@@ -217,7 +217,7 @@ const CreateReport = () => {
           type="submit"
           variant="contained"
         >
-          Enviar Reporte
+          Enviar Denuncia
         </Button>
       </form>
     </Container>

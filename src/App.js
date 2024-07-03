@@ -41,14 +41,14 @@ function App() {
             <Route element={<ProtectedRoute redirectTo="/login" />}>
               <Route path="/payment" element={<Payment />} />
               <Route path="/perfil" element={<UserProfile />} />
-              <Route path="/misreportes" element={<MyReports />} />
+              <Route path="/misDenuncias" element={<MyReports />} />
             </Route>
 
             <Route element={<ProtectedRoute redirectTo="/error" />}>
-              <Route path="/reportes/crearReporte" element={<CreateReport />} />
+              <Route path="/reportes/crearDenuncia" element={<CreateReport />} />
             </Route>
 
-            <Route path="/reportes" element={<ReportListContainer />} />
+            <Route path="/denuncias" element={<ReportListContainer />} />
           </Routes>
         </Router>
       </AllMyReports>

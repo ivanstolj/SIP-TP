@@ -120,7 +120,7 @@ export default function EnhancedTable() {
     };
 
     const handleCreateReportView = () => {
-        navigate('/reportes/crearReporte');
+        navigate('/reportes/crearDenuncia');
     };
 
     const handleFilterChange = (event) => {
@@ -279,7 +279,7 @@ export default function EnhancedTable() {
             <Container sx={{ width: '100%', marginTop: 5, backgroundColor: '#f5f5f5', padding: 4, borderRadius: 2 }} maxWidth="xl">
                 <Grid container alignItems="center" justifyContent="space-between" sx={{ marginBottom: 2 }}>
                     <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#3f51b5' }}>
-                        Mis Reportes
+                        Mis Denuncias
                     </Typography>
                     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
                         <IconButton

@@ -11,7 +11,7 @@ import Logo from '../../Logo.png';
 
 const pages = [
   { name: 'Menu', path: '/' },
-  { name: 'Reportes', path: '/reportes' },
+  { name: 'Denuncias', path: '/denuncias' },
   { name: 'Pricing', path: '/pricing' },
   { name: 'Consejos', path: '/consejos' },
   { name: 'Test de conocimiento', path: '/quiz' },
@@ -19,7 +19,7 @@ const pages = [
 
 const settingsLogin = [
   { name: 'Perfil', path: '/perfil' },
-  { name: 'Mis reportes', path: '/misReportes' },
+  { name: 'Mis reportes', path: '/misDenuncias' },
 ];
 
 const settingsNotLogin = [
