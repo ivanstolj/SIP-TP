@@ -45,7 +45,7 @@ function App() {
             </Route>
 
             <Route element={<ProtectedRoute redirectTo="/error" />}>
-              <Route path="/reportes/crearDenuncia" element={<CreateReport />} />
+              <Route path="/denuncias/crearDenuncia" element={<CreateReport />} />
             </Route>
 
             <Route path="/denuncias" element={<ReportListContainer />} />

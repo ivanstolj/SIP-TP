@@ -44,7 +44,7 @@ function Login() {
         localStorage.setItem('user', JSON.stringify(response.data.loginUser.user));
         localStorage.setItem('token', JSON.stringify(response.data.loginUser.token));
         loginUser(response.data.loginUser.user);
-        navigate('/reportes');
+        navigate('/denuncias');
       } else {
         Swal.fire({
           icon: 'error',

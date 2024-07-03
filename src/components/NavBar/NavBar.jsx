@@ -19,7 +19,7 @@ const pages = [
 
 const settingsLogin = [
   { name: 'Perfil', path: '/perfil' },
-  { name: 'Mis reportes', path: '/misDenuncias' },
+  { name: 'Mis denuncias', path: '/misDenuncias' },
 ];
 
 const settingsNotLogin = [

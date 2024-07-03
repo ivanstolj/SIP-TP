@@ -129,7 +129,7 @@ export default function EnhancedTable() {
   const handleLike = async (id, content) => {
     Swal.fire({
       title: "¿Confirmar Acción?",
-      text: "Esto aprobará el reporte.",
+      text: "Esto aprobará la denuncia.",
       icon: "info",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -146,7 +146,7 @@ export default function EnhancedTable() {
             }
           });
           console.log(response);
-          // Actualiza el estado de los reportes
+          // Actualiza el estado de las denuncias
           setRows(prevRows => prevRows.map(row => {
             if (row._id === id) {
               const isDisliked = row.dislikesBy.includes(user._id);
@@ -162,7 +162,7 @@ export default function EnhancedTable() {
           }));
           Swal.fire({
             title: "¡Listo!",
-            text: "El reporte ha sido aprobado.",
+            text: "La denuncia ha sido aprobado.",
             icon: "success"
           });
         } catch (e) {
@@ -183,7 +183,7 @@ export default function EnhancedTable() {
   const handleDislike = async (id, content) => {
     Swal.fire({
       title: "¿Confirmar Acción?",
-      text: "Esto desaprobará el reporte.",
+      text: "Esto desaprobará la denuncia.",
       icon: "info",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -200,7 +200,7 @@ export default function EnhancedTable() {
             }
           });
           console.log(response);
-          // Actualiza el estado de los reportes
+          // Actualiza el estado de las denuncias
           setRows(prevRows => prevRows.map(row => {
             if (row._id === id) {
               const isLiked = row.likesBy.includes(user._id);
@@ -216,7 +216,7 @@ export default function EnhancedTable() {
           }));
           Swal.fire({
             title: "¡Listo!",
-            text: "El reporte ha sido desaprobado.",
+            text: "La denuncia ha sido desaprobado.",
             icon: "success"
           });
         } catch (e) {
@@ -263,7 +263,7 @@ export default function EnhancedTable() {
   };
 
   const handleCreateReportView = () => {
-    navigate('/reportes/crearDenuncia');
+    navigate('/denuncias/crearDenuncia');
   };
 
   const handleFilterTypeChange = (event) => {
@@ -472,7 +472,7 @@ export default function EnhancedTable() {
               disabled={!isLogged}
               sx={{ backgroundColor: '#724ae8', color: 'white', '&:hover': { backgroundColor: '#6f5da5' } }}
             >
-              Crear reporte
+              Crear denuncia
             </Button>
           </Box>
         </Grid>
@@ -536,7 +536,7 @@ export default function EnhancedTable() {
                                   </Tooltip>
                                 </TableCell> :
                               <TableCell align="center" sx={{ paddingRight: "40px" }}>
-                                <Typography variant="body2" sx={{ fontWeight: 'bold' }}><Link to="/login" className="linkLogin">Inicie sesión</Link> para poder aprobar<br></br> o desaprobar reportes</Typography>
+                                <Typography variant="body2" sx={{ fontWeight: 'bold' }}><Link to="/login" className="linkLogin">Inicie sesión</Link> para poder aprobar<br></br> o desaprobar denuncias</Typography>
                               </TableCell>
                           }
                         </TableRow>

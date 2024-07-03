@@ -120,7 +120,7 @@ export default function EnhancedTable() {
     };
 
     const handleCreateReportView = () => {
-        navigate('/reportes/crearDenuncia');
+        navigate('/denuncias/crearDenuncia');
     };
 
     const handleFilterChange = (event) => {
@@ -131,7 +131,7 @@ export default function EnhancedTable() {
     const handleDelete = async (id, content) => {
         Swal.fire({
             title: "¿Confirmar Acción?",
-            text: "Esto eliminará el reporte.",
+            text: "Esto eliminará la denuncia.",
             icon: "info",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -156,7 +156,7 @@ export default function EnhancedTable() {
                     console.log(response);
                     Swal.fire({
                         title: "¡Listo!",
-                        text: "El reporte ha sido eliminado.",
+                        text: "La denuncia ha sido eliminado.",
                         icon: "success"
                     }).then(() => window.location.reload());
                 } catch (e) {
@@ -298,7 +298,7 @@ export default function EnhancedTable() {
                             disabled={!isLogged}
                             sx={{ backgroundColor: '#724ae8', color: 'white', '&:hover': { backgroundColor: '#6f5da5' } }}
                         >
-                            Crear reporte
+                            Crear denuncia
                         </Button>
                         <CSVLink data={csvData} filename={"reports.csv"} style={{ textDecoration: 'none' }}>
                             <Button
