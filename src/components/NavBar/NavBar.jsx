@@ -71,7 +71,7 @@ function NavBar() {
       <AppBar position="static" sx={{ backgroundColor: '#724ae8' }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <Avatar sx={{ display: { xs: 'flex'}, mr: 1 }} src={Logo}/>
+            <Avatar sx={{ display: { xs: 'flex' }, mr: 1 }} src={Logo} />
             <Typography
               variant="h6"
               noWrap
@@ -195,7 +195,7 @@ function NavBar() {
       <AppBar position="static" sx={{ backgroundColor: '#724ae8' }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            <AdbIcon className="logo-icon" sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            <Avatar sx={{ display: { xs: 'flex' }, mr: 1 }} src={Logo} />
             <Typography
               variant="h6"
               noWrap
@@ -284,7 +284,7 @@ function NavBar() {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp"/>
+                  <Avatar alt="Remy Sharp" />
                 </IconButton>
               </Tooltip>
               <Menu
