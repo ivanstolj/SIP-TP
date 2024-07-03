@@ -103,7 +103,7 @@ function HomePage() {
                   Aprende a protegerte contra amenazas comunes en línea con nuestros consejos de seguridad.
                 </Typography>
                 <Link to="/consejos" className="link">
-                  <Button variant="contained" color="primary" size="large" sx={{ mt: 3 }}>
+                  <Button variant="contained" color="primary" size="large" sx={{ mt: 3, '&:hover': { backgroundColor: '#303f9f' } }}>
                     Ver consejos
                   </Button>
                 </Link>
@@ -120,7 +120,7 @@ function HomePage() {
                   Mantente informado sobre las últimas noticias y actualizaciones en el ámbito de la ciberseguridad.
                 </Typography>
                 <Link onClick={manageNews} className="link">
-                  <Button variant="contained" color="primary" size="large" sx={{ mt: 3 }}>
+                  <Button variant="contained" color="primary" size="large" sx={{ mt: 3, '&:hover': { backgroundColor: '#303f9f' } }}>
                     Ver noticias
                   </Button>
                 </Link>
