@@ -1,70 +1,47 @@
-# Getting Started with Create React App
+# CyberGuard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Descripción
 
-## Available Scripts
+CyberGuard es una plataforma web que proporciona diversas funcionalidades relacionadas con la seguridad informática. Los usuarios pueden reportar incidentes de seguridad, acceder a recursos educativos, realizar pruebas de conocimiento y suscribirse a planes premium para obtener beneficios adicionales.
 
-In the project directory, you can run:
+## Instalación
+En primera instancia se requiere clonar el repositorio.
 
-### `npm start`
+```bash
+git clone https://github.com/ivanstolj/SIP-TP.git
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Dependencias
+Para la instalación de dependencias ejecutaremos el siguiente comando.
+```
+npm install
+```
+## Inicialización
+Para iniciar el proyecto ejecutamos.
+```
+npm run start
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+De esta forma, veremos nuestra página activa el siguiente [link](http://localhost:3000/)
 
-### `npm test`
+## Funcionalidades
+Los usuarios podrán realizar las siguientes funciones:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* Registrarse.
+* Iniciar Sesión.
+* Cambiar su contraseña.
+* Visualizar su perfil.
+* Visualizar denuncias de la comunidad.
+* Denunciar mails, teléfonos o URLs.
+* Aprobar reportes.
+* Desaprobar reportes.
+* Filtrar reportes según sus preferencias.
+* Leer consejos acerca de la seguridad informática.
+* Generar contraseñas seguras.
+* Realizar un test de conocimiento basado en su nivel.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Consideraciones
+- Solo los usuarios validados podrán iniciar sesión.
+- No se podrá aprobar o desaprobar denuncias si no se inicia sesión.
+- No se podrá aprobar o desaprobar denuncias propias.
+- El avatar del perfil es aleatorio y se establece por el nombre de usuario, sin posibilidad de cambio.
