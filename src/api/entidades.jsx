@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiBaseUrl = 'http://localhost:4000';
+const apiBaseUrl = 'https://backendseminario.onrender.com';
 
 export const getEntidades = async () => {
   try {

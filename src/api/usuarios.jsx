@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:4000';
+const API_URL = 'https://backendseminario.onrender.com';
 
 export const getUsuarios = async (entidad) => {
   console.log(entidad)
