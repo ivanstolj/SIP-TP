@@ -51,7 +51,6 @@ const Payment = () => {
       <div className="payment-box">
         <h2>Pago del Plan {plan}</h2>
         <div className="payment-details">
-          <p><strong>Usuario:</strong> {user.username}</p>
           <p><strong>Email:</strong> {user.email}</p>
           <p><strong>Plan seleccionado:</strong> {plan}</p>
           <p><strong>Total a pagar:</strong> ${getPrice()}</p>

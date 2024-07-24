@@ -55,6 +55,7 @@ function Login() {
     } catch (e) {
       const statusCode = e.response.data.status;
       if (statusCode === 400) {
+        console.log(e)
         setError('Email o contraseña incorrecta');
       } else {
         setError('Ha ocurrido un error. Por favor, inténtelo de nuevo.');

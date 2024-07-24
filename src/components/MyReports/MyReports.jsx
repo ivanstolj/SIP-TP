@@ -150,7 +150,6 @@ export default function EnhancedTable() {
                             reportId: id,
                             email: user.email,
                             content: content,
-                            username: user.username
                         }
                     });
                     console.log(response);

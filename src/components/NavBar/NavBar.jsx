@@ -8,14 +8,21 @@ import ContextoAuth from '../../Context/AuthContext';
 import './NavBar.css';
 import Logo from '../../Logo.png';
 
-
 const pages = [
+  { name: 'Menu', path: '/' },
+  { name: 'Denuncias', path: '/denuncias' },
+  { name: 'Consejos', path: '/consejos' },
+  { name: 'Test de conocimiento', path: '/quiz' },
+];
+
+const pagesNotLoggedIn = [
   { name: 'Menu', path: '/' },
   { name: 'Denuncias', path: '/denuncias' },
   { name: 'Pricing', path: '/pricing' },
   { name: 'Consejos', path: '/consejos' },
   { name: 'Test de conocimiento', path: '/quiz' },
 ];
+
 
 const settingsLogin = [
   { name: 'Perfil', path: '/perfil' },
@@ -36,7 +43,7 @@ function NavBar() {
 
   React.useEffect(() => {
     if (user) {
-      setAvatarUrl(`https://robohash.org/${user.username}.png`);
+      setAvatarUrl(`https://robohash.org/${user.name}${user.lastname}.png`);
     }
   }, [user]);
 
@@ -65,6 +72,19 @@ function NavBar() {
     navigate(path);
     handleCloseUserMenu();
   };
+
+  const getUserSettings = () => {
+    let settings = [...settingsLogin];
+    if (user?.rol === 'administrator') {
+      settings.push({ name: 'Gestionar Entidades', path: '/gestionarEntidades' });
+    }
+    if (user?.rol === ('Administrador')) {
+      settings.push({ name: 'Panel de Administrador', path: '/panelAdministrador' });
+    }
+    return settings;
+  };
+
+  const currentPages = isLogged ? pages : pagesNotLoggedIn;
 
   if (isLogged) {
     return (
@@ -119,7 +139,7 @@ function NavBar() {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {pages.map((page) => (
+                {currentPages.map((page) => (
                   <MenuItem key={page.name} onClick={() => handleMenuItemClick(page.path)}>
                     <Typography textAlign="center">{page.name}</Typography>
                   </MenuItem>
@@ -146,7 +166,7 @@ function NavBar() {
               CyberGuard
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
+              {currentPages.map((page) => (
                 <Button
                   key={page.name}
                   onClick={() => handleMenuItemClick(page.path)}
@@ -179,7 +199,7 @@ function NavBar() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settingsLogin.map((setting) => (
+                {getUserSettings().map((setting) => (
                   <MenuItem key={setting.name} onClick={() => handleSettingClick(setting.path)}>
                     <Typography textAlign="center">{setting.name}</Typography>
                   </MenuItem>
@@ -243,7 +263,7 @@ function NavBar() {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {pages.map((page) => (
+                {currentPages.map((page) => (
                   <MenuItem key={page.name} onClick={() => handleMenuItemClick(page.path)}>
                     <Typography textAlign="center">{page.name}</Typography>
                   </MenuItem>
@@ -270,7 +290,7 @@ function NavBar() {
               CyberGuard
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
+              {currentPages.map((page) => (
                 <Button
                   key={page.name}
                   onClick={() => handleMenuItemClick(page.path)}

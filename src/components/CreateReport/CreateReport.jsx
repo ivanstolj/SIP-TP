@@ -10,7 +10,8 @@ import ContextoReports from '../../Context/PersonalReportsContext';
 
 const CreateReport = () => {
   const { user } = useContext(ContextoAuth);
-  const [reports, setReports] = useState([{ user: user._id, type: '', content: '', pretends: '', description: '' }]);
+  console.log(user)
+  const [reports, setReports] = useState([{ user: user._id, type: '', content: '', pretends: '', description: '', company: user.company._id }]);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const { updateReports } = React.useContext(ContextoReports)
@@ -25,7 +26,7 @@ const CreateReport = () => {
 
   const handleAddReport = () => {
     if (reports.length < 5) {
-      setReports([...reports, { user: user._id, type: '', content: '', pretends: '', description: '' }]);
+      setReports([...reports, { user: user._id, type: '', content: '', pretends: '', description: '', company: user.company._id }]);
     }
   };
 
@@ -111,7 +112,7 @@ const CreateReport = () => {
         icon: 'info'
       });
 
-      setReports([{ user: user._id, type: '', content: '', pretends: '', description: '' }]);
+      setReports([{ user: user._id, type: '', content: '', pretends: '', description: '', company: user.company._id }]);
       setErrors({});
     } else {
       setLoading(false);

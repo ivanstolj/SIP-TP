@@ -24,9 +24,9 @@ function descendingComparator(a, b, orderBy) {
   let aValue = a[orderBy];
   let bValue = b[orderBy];
 
-  if (orderBy === 'username') {
-    aValue = a.user.username;
-    bValue = b.user.username;
+  if (orderBy === 'entidad') {
+    aValue = a.company.name;
+    bValue = a.company.name;
   }
 
   if (bValue < aValue) return -1;
@@ -54,7 +54,7 @@ function stableSort(array, comparator) {
 const headCells = [
   { id: 'content', numeric: true, disablePadding: false, label: 'Contenido' },
   { id: 'pretends', numeric: false, disablePadding: false, label: 'Simula ser' },
-  { id: 'username', numeric: false, disablePadding: false, label: 'Usuario Autor' },
+  { id: 'entidad', numeric: false, disablePadding: false, label: 'Entidad' },
   { id: 'date', numeric: false, disablePadding: false, label: 'Fecha' },
   { id: 'likes', numeric: false, disablePadding: false, label: 'Aprobaciones' },
   { id: 'dislikes', numeric: false, disablePadding: false, label: 'Desaprobaciones' },
@@ -509,7 +509,7 @@ export default function EnhancedTable() {
                             {row.content}
                           </TableCell>
                           <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.pretends}</TableCell>
-                          <TableCell align="center" sx={{ paddingRight: "40px" }}> {row.user.username}</TableCell>
+                          <TableCell align="center" sx={{ paddingRight: "40px" }}> {row.company.name}</TableCell>
                           <TableCell align="center" sx={{ paddingRight: "40px" }}>{formatDateTime(row.date)}</TableCell>
                           <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.likes}</TableCell>
                           <TableCell align="center" sx={{ paddingRight: "40px" }}>{row.dislikes}</TableCell>

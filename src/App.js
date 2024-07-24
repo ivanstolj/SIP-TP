@@ -20,6 +20,9 @@ import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import ActivateAccount from './components/ActivateAccount/ActivateAccount';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import Payment from './components/Payment/Payment';
+import GestionarEntidades from './components/AdministrarEntidades/GestionarEntidades';
+import GestionarEntidad from './components/GestionarEntidad/GestionarEntidad';
+import PanelAdministrador from './components/PanelAdministrador/Administrador';
 function App() {
   return (
     <Auth>
@@ -46,6 +49,9 @@ function App() {
 
             <Route element={<ProtectedRoute redirectTo="/error" />}>
               <Route path="/denuncias/crearDenuncia" element={<CreateReport />} />
+              <Route path="/gestionarEntidades" element={<GestionarEntidades />} />
+              <Route path="/gestionarEntidad/:nombre" element={<GestionarEntidad />} />
+              <Route path="/panelAdministrador" element={<PanelAdministrador />} />
             </Route>
 
             <Route path="/denuncias" element={<ReportListContainer />} />

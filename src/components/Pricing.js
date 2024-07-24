@@ -1,18 +1,34 @@
 // src/components/Pricing.js
 import React, { useState, useContext } from 'react';
-import PricingCard from './PricingCard';
-import '../styles/PricingApp.css';
+import { Box, Button, Container, TextField, Typography, Grid, Paper } from '@mui/material';
 import ContextoAuth from '../Context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import '../styles/PricingApp.css';
 
 const Pricing = () => {
-  const [selectMonthly, setSelectMonthly] = useState(true);
   const { user, isLogged } = useContext(ContextoAuth);
   const navigate = useNavigate();
+  const [contactInfo, setContactInfo] = useState({
+    name: '',
+    email: '',
+    company: '',
+    message: '',
+  });
 
-  const handleSubscribe = (plan) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setContactInfo({
+      ...contactInfo,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (isLogged) {
-      navigate('/payment', { state: { plan } });
+      // Aquí enviarías la solicitud a tu backend
+      console.log('Contact Info:', contactInfo);
+      // Navegar a una página de confirmación o mostrar un mensaje de éxito
     } else {
       navigate('/login');
     }
@@ -20,54 +36,66 @@ const Pricing = () => {
 
   return (
     <div className="PricingApp">
-      <div className="app-container">
-        <header>
-          <h1 className="header-topic">Nuestros Planes</h1>
-          <div className="header-row">
-            <p>Anual</p>
-            <label className="price-switch">
-              <input
-                className="price-checkbox"
-                onChange={() => {
-                  setSelectMonthly((prev) => !prev);
-                }}
-                type="checkbox"
-              />
-              <div className="switch-slider"></div>
-            </label>
-            <p>Mensual</p>
-          </div>
-        </header>
-        <div className="pricing-cards">
-          <PricingCard
-            title="Gratis"
-            price={selectMonthly ? 'Gratis' : 'Gratis'}
-            storage="Configuraciones Limitadas"
-            users="1 usuario"
-            sendUp="Sin Inteligencia Artificial"
-            isCurrentPlan={isLogged && !user.premium && user.premium !== undefined}
-            handleSubscribe={() => handleSubscribe('Gratis')}
-          />
-          <PricingCard
-            title="Empresarial"
-            price={selectMonthly ? '34.99' : '349.9'}
-            storage="Configuraciones Personalizadas"
-            users="10 usuarios"
-            sendUp="Acompañante de Inteligencia Artificial"
-            isCurrentPlan={isLogged && user.premium === 'Empresarial'}
-            handleSubscribe={() => handleSubscribe('Empresarial')}
-          />
-          <PricingCard
-            title="Premium"
-            price={selectMonthly ? '5.99' : '59.9'}
-            storage="Configuraciones Personalizadas"
-            users="1 usuario"
-            sendUp="Acompañante de Inteligencia Artificial"
-            isCurrentPlan={isLogged && user.premium === 'Premium'}
-            handleSubscribe={() => handleSubscribe('Premium')}
-          />
-        </div>
-      </div>
+      <Container maxWidth="md" className="app-container">
+        <Paper elevation={3} className="contact-form">
+          <Typography variant="h4" className="header-topic">
+            Soluciones Empresariales
+          </Typography>
+          <Typography variant="body1" className="header-description">
+            Ponte en contacto con nosotros para obtener soluciones personalizadas para tu empresa.
+          </Typography>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Nombre"
+              name="name"
+              value={contactInfo.name}
+              onChange={handleChange}
+              required
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Correo Electrónico"
+              name="email"
+              type="email"
+              value={contactInfo.email}
+              onChange={handleChange}
+              required
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Empresa"
+              name="company"
+              value={contactInfo.company}
+              onChange={handleChange}
+              required
+            />
+            <TextField
+              fullWidth
+              margin="normal"
+              label="Mensaje"
+              name="message"
+              value={contactInfo.message}
+              onChange={handleChange}
+              multiline
+              rows={4}
+              required
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className="button-primary"
+              sx={{ mt: 2 }}
+            >
+              Enviar
+            </Button>
+          </form>
+        </Paper>
+      </Container>
     </div>
   );
 };

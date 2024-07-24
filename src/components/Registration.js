@@ -74,18 +74,6 @@ function Registration() {
               {errors.lastName && <p className="error-message">{errors.lastName.message}</p>}
             </div>
             <div className="form-group">
-              <label htmlFor="username">Nombre de usuario:</label>
-              <div className="input-wrapper">
-                <FaUser className="input-icon" />
-                <input
-                  type="text"
-                  id="username"
-                  {...register('username', { required: 'El nombre de usuario es obligatorio.', minLength: { value: 3, message: 'El nombre de usuario debe tener al menos 3 caracteres.' } })}
-                />
-              </div>
-              {errors.username && <p className="error-message">{errors.username.message}</p>}
-            </div>
-            <div className="form-group">
               <label htmlFor="email">Email:</label>
               <div className="input-wrapper">
                 <FaEnvelope className="input-icon" />

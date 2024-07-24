@@ -4,16 +4,17 @@ import { Container, Grid, Typography, Avatar, Button, Box, Badge, Chip } from '@
 import { orange, green } from '@mui/material/colors';
 import ContextoAuth from '../../Context/AuthContext';
 import StarIcon from '@mui/icons-material/Star';
+import {format} from 'date-fns';
 import './Profile.css';
 
 const UserProfile = () => {
   const { user, logOffUser } = useContext(ContextoAuth);
   const navigate = useNavigate();
   const [avatarUrl, setAvatarUrl] = useState('');
-
+  const formattedDate = format(new Date(user.createdAt), 'dd/MM/yyyy');
   useEffect(() => {
     if (user) {
-      setAvatarUrl(`https://robohash.org/${user.username}.png`);
+      setAvatarUrl(`https://robohash.org/${user.name}${user.lastname}.png`);
     }
   }, [user]);
 
@@ -59,13 +60,19 @@ const UserProfile = () => {
               {user.name} {user.lastname}
             </Typography>
             <Typography variant="body1" className="user-username">
-              @{user.username}
+              Entidad: {user.company.name}
             </Typography>
             <Typography variant="body1" className="user-email">
-              {user.email}
+              Rol: {user.rol}
+            </Typography>
+            <Typography variant="body1" className="user-email">
+              Email: {user.email}
             </Typography>
             <Typography variant="body1" className="user-phone">
-              {user.phone}
+              Teléfono: {user.phone}
+            </Typography>
+            <Typography variant="body1" className="user-phone">
+              Miembro desde: {formattedDate}
             </Typography>
             <Button
               variant="contained"
